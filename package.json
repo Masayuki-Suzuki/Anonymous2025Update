@@ -1,4 +1,12 @@
 {
-  "name": "anon-dev-2025",
-  "packageManager": "yarn@4.2.2"
+    "name": "anon-dev-2025",
+    "version": "1.0.0",
+    "packageManager": "yarn@4.2.2",
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "devDependencies": {
+        "prettier": "^3.5.3"
+    }
 }
