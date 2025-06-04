@@ -24,3 +24,4 @@ Current blog: [Anonymous Front-end Developer](https://anonymous-frontend.dev/)
 - Strapi CMS
 - GraphQL
 - Apollo Client
+- Monorepo (Yarn Workspaces)
