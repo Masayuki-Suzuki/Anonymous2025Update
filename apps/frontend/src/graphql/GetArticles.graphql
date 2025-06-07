@@ -1,0 +1,17 @@
+query Posts {
+    posts {
+        documentId
+        title
+        excerpt
+        thumbnail {
+            url
+            alternativeText
+        }
+        tags {
+            name
+            slug
+        }
+        createdAt
+        updatedAt
+    }
+}

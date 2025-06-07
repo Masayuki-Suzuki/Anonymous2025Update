@@ -1,27 +1,12 @@
-import { gql, useQuery } from '@apollo/client'
+import BlogListLoader from '@/components/loaders/BlogListLoader'
 import { getClient } from '@/lib/apolloClient'
-
-const GET_ARTICLES = gql`
-    query Posts {
-        posts {
-            documentId
-            title
-            excerpt
-        }
-    }
-`
+import { PostsDocument, PostsQuery } from '@/generated/graphql'
+import BlogList from '@/components/templates/BlogList'
 
 export default async function Home() {
-    const { data, loading, error } = await getClient().query({ query: GET_ARTICLES })
+    const { data, loading, error } = await getClient().query<PostsQuery>({ query: PostsDocument })
 
-    return (
-        <div>
-            <h1>Articles</h1>
-            <ul>
-                {data.posts.map((article: any) => (
-                    <li key={article.documentId}>{article.title}</li>
-                ))}
-            </ul>
-        </div>
-    )
+    console.log(data)
+
+    return <BlogListLoader initialPostData={data} />
 }

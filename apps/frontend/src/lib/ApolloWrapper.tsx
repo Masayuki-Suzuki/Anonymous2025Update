@@ -1,9 +1,25 @@
 'use client'
-
-import { ApolloNextAppProvider } from '@apollo/client-integration-nextjs'
-import { createApolloClient } from '@/lib/apolloClient'
+import { HttpLink } from '@apollo/client'
+import { ApolloClient, ApolloNextAppProvider, InMemoryCache, SSRMultipartLink } from '@apollo/client-integration-nextjs'
 import React from 'react'
 
 export default function ApolloWrapper({ children }: React.PropsWithChildren) {
+    const createApolloClient = () => {
+        const httpLink = new HttpLink({
+            uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL || 'http://localhost:1337/graphql',
+            fetchOptions: {
+                mode: 'cors',
+            },
+            headers: {
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN || ''}`,
+            },
+        })
+
+        return new ApolloClient({
+            cache: new InMemoryCache(),
+            link: httpLink,
+        })
+    }
+
     return <ApolloNextAppProvider makeClient={createApolloClient}>{children}</ApolloNextAppProvider>
 }
