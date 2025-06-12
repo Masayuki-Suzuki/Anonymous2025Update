@@ -1,7 +1,7 @@
-// import Header from '../components/organisms/Header'
 import './globals.css'
 import { Lato } from 'next/font/google'
 import Header from '@/components/organisms/Header'
+import SideNavigation from '@/components/organisms/SideNavigation'
 
 const lato = Lato({
     weight: ['400', '700'],
@@ -17,9 +17,14 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className="font-sans">
+            <body>
                 <Header />
-                {children}
+                <div>
+                    <main>{children}</main>
+                    <aside>
+                        <SideNavigation />
+                    </aside>
+                </div>
             </body>
         </html>
     )

@@ -2,6 +2,8 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -15,20 +17,18 @@ const SearchBar = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center">
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="SEARCH..."
-        className="px-3 py-1 border border-gray-300 rounded-l focus:outline-none focus:ring-1 focus:ring-blue-500"
       />
       <button
         type="submit"
-        className="bg-blue-500 text-white px-3 py-1 rounded-r hover:bg-blue-600 focus:outline-none"
         aria-label="Search"
       >
-        <i className="fas fa-search"></i>
+        <FontAwesomeIcon icon={faSearch} />
       </button>
     </form>
   )

@@ -1,0 +1,10 @@
+query Tags {
+    tags {
+        documentId
+        slug
+        name
+        posts {
+            documentId
+        }
+    }
+}
