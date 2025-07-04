@@ -19,6 +19,58 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type Archive = {
+  __typename?: 'Archive';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  documentId: Scalars['ID']['output'];
+  posts: Array<Maybe<Post>>;
+  posts_connection?: Maybe<PostRelationResponseCollection>;
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  slug: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+export type ArchivePostsArgs = {
+  filters?: InputMaybe<PostFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type ArchivePosts_ConnectionArgs = {
+  filters?: InputMaybe<PostFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type ArchiveEntityResponseCollection = {
+  __typename?: 'ArchiveEntityResponseCollection';
+  nodes: Array<Archive>;
+  pageInfo: Pagination;
+};
+
+export type ArchiveFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ArchiveFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<ArchiveFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ArchiveFiltersInput>>>;
+  posts?: InputMaybe<PostFiltersInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  slug?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type ArchiveInput = {
+  posts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type BooleanFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Boolean']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['Boolean']['input']>>>;
@@ -105,7 +157,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type GenericMorph = I18NLocale | Post | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | Tag | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Archive | I18NLocale | Post | PrivacyPolicy | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | Tag | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -214,6 +266,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  createArchive?: Maybe<Archive>;
   createPost?: Maybe<Post>;
   createReviewWorkflowsWorkflow?: Maybe<ReviewWorkflowsWorkflow>;
   createReviewWorkflowsWorkflowStage?: Maybe<ReviewWorkflowsWorkflowStage>;
@@ -222,7 +275,9 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteArchive?: Maybe<DeleteMutationResponse>;
   deletePost?: Maybe<DeleteMutationResponse>;
+  deletePrivacyPolicy?: Maybe<DeleteMutationResponse>;
   deleteReviewWorkflowsWorkflow?: Maybe<DeleteMutationResponse>;
   deleteReviewWorkflowsWorkflowStage?: Maybe<DeleteMutationResponse>;
   deleteTag?: Maybe<DeleteMutationResponse>;
@@ -240,7 +295,9 @@ export type Mutation = {
   register: UsersPermissionsLoginPayload;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateArchive?: Maybe<Archive>;
   updatePost?: Maybe<Post>;
+  updatePrivacyPolicy?: Maybe<PrivacyPolicy>;
   updateReviewWorkflowsWorkflow?: Maybe<ReviewWorkflowsWorkflow>;
   updateReviewWorkflowsWorkflowStage?: Maybe<ReviewWorkflowsWorkflowStage>;
   updateTag?: Maybe<Tag>;
@@ -256,6 +313,12 @@ export type MutationChangePasswordArgs = {
   currentPassword: Scalars['String']['input'];
   password: Scalars['String']['input'];
   passwordConfirmation: Scalars['String']['input'];
+};
+
+
+export type MutationCreateArchiveArgs = {
+  data: ArchiveInput;
+  status?: InputMaybe<PublicationStatus>;
 };
 
 
@@ -290,6 +353,11 @@ export type MutationCreateUsersPermissionsRoleArgs = {
 
 export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
+};
+
+
+export type MutationDeleteArchiveArgs = {
+  documentId: Scalars['ID']['input'];
 };
 
 
@@ -355,9 +423,22 @@ export type MutationResetPasswordArgs = {
 };
 
 
+export type MutationUpdateArchiveArgs = {
+  data: ArchiveInput;
+  documentId: Scalars['ID']['input'];
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
 export type MutationUpdatePostArgs = {
   data: PostInput;
   documentId: Scalars['ID']['input'];
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
+export type MutationUpdatePrivacyPolicyArgs = {
+  data: PrivacyPolicyInput;
   status?: InputMaybe<PublicationStatus>;
 };
 
@@ -417,6 +498,7 @@ export type PaginationArg = {
 
 export type Post = {
   __typename?: 'Post';
+  archive?: Maybe<Archive>;
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -453,6 +535,7 @@ export type PostEntityResponseCollection = {
 
 export type PostFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PostFiltersInput>>>;
+  archive?: InputMaybe<ArchiveFiltersInput>;
   content?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
@@ -468,6 +551,7 @@ export type PostFiltersInput = {
 };
 
 export type PostInput = {
+  archive?: InputMaybe<Scalars['ID']['input']>;
   content?: InputMaybe<Scalars['String']['input']>;
   excerpt?: InputMaybe<Scalars['String']['input']>;
   hidden?: InputMaybe<Scalars['Boolean']['input']>;
@@ -483,6 +567,20 @@ export type PostRelationResponseCollection = {
   nodes: Array<Post>;
 };
 
+export type PrivacyPolicy = {
+  __typename?: 'PrivacyPolicy';
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  documentId: Scalars['ID']['output'];
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type PrivacyPolicyInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export enum PublicationStatus {
   Draft = 'DRAFT',
   Published = 'PUBLISHED'
@@ -490,6 +588,9 @@ export enum PublicationStatus {
 
 export type Query = {
   __typename?: 'Query';
+  archive?: Maybe<Archive>;
+  archives: Array<Maybe<Archive>>;
+  archives_connection?: Maybe<ArchiveEntityResponseCollection>;
   i18NLocale?: Maybe<I18NLocale>;
   i18NLocales: Array<Maybe<I18NLocale>>;
   i18NLocales_connection?: Maybe<I18NLocaleEntityResponseCollection>;
@@ -497,6 +598,7 @@ export type Query = {
   post?: Maybe<Post>;
   posts: Array<Maybe<Post>>;
   posts_connection?: Maybe<PostEntityResponseCollection>;
+  privacyPolicy?: Maybe<PrivacyPolicy>;
   reviewWorkflowsWorkflow?: Maybe<ReviewWorkflowsWorkflow>;
   reviewWorkflowsWorkflowStage?: Maybe<ReviewWorkflowsWorkflowStage>;
   reviewWorkflowsWorkflowStages: Array<Maybe<ReviewWorkflowsWorkflowStage>>;
@@ -515,6 +617,28 @@ export type Query = {
   usersPermissionsUser?: Maybe<UsersPermissionsUser>;
   usersPermissionsUsers: Array<Maybe<UsersPermissionsUser>>;
   usersPermissionsUsers_connection?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+};
+
+
+export type QueryArchiveArgs = {
+  documentId: Scalars['ID']['input'];
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
+export type QueryArchivesArgs = {
+  filters?: InputMaybe<ArchiveFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
+export type QueryArchives_ConnectionArgs = {
+  filters?: InputMaybe<ArchiveFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  status?: InputMaybe<PublicationStatus>;
 };
 
 
@@ -558,6 +682,11 @@ export type QueryPosts_ConnectionArgs = {
   filters?: InputMaybe<PostFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
+export type QueryPrivacyPolicyArgs = {
   status?: InputMaybe<PublicationStatus>;
 };
 
@@ -1142,7 +1271,7 @@ export type UsersPermissionsUserRelationResponseCollection = {
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, excerpt?: string | null, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, excerpt?: string | null, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
 
 export type TagsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1156,6 +1285,21 @@ export type SearchPostsQueryVariables = Exact<{
 
 export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
 
+export type ArchivesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ArchivesQuery = { __typename?: 'Query', archives: Array<{ __typename?: 'Archive', documentId: string, title: string, slug: string, posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, publishedAt?: any | null } | null> } | null> };
+
+export type GetPrivacyPolicyContentQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPrivacyPolicyContentQuery = { __typename?: 'Query', privacyPolicy?: { __typename?: 'PrivacyPolicy', content?: string | null, createdAt?: any | null, publishedAt?: any | null, updatedAt?: any | null } | null };
+
+export type GetRecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRecentArticlesQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null } | null> };
+
 
 export const PostsDocument = gql`
     query Posts {
@@ -1166,6 +1310,8 @@ export const PostsDocument = gql`
     thumbnail {
       url
       alternativeText
+      width
+      height
     }
     tags {
       name
@@ -1302,3 +1448,141 @@ export type SearchPostsQueryHookResult = ReturnType<typeof useSearchPostsQuery>;
 export type SearchPostsLazyQueryHookResult = ReturnType<typeof useSearchPostsLazyQuery>;
 export type SearchPostsSuspenseQueryHookResult = ReturnType<typeof useSearchPostsSuspenseQuery>;
 export type SearchPostsQueryResult = Apollo.QueryResult<SearchPostsQuery, SearchPostsQueryVariables>;
+export const ArchivesDocument = gql`
+    query Archives {
+  archives {
+    documentId
+    title
+    slug
+    posts(filters: {publishedAt: {ne: null}}) {
+      documentId
+      title
+      slug
+      publishedAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useArchivesQuery__
+ *
+ * To run a query within a React component, call `useArchivesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArchivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useArchivesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useArchivesQuery(baseOptions?: Apollo.QueryHookOptions<ArchivesQuery, ArchivesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ArchivesQuery, ArchivesQueryVariables>(ArchivesDocument, options);
+      }
+export function useArchivesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ArchivesQuery, ArchivesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ArchivesQuery, ArchivesQueryVariables>(ArchivesDocument, options);
+        }
+export function useArchivesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ArchivesQuery, ArchivesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ArchivesQuery, ArchivesQueryVariables>(ArchivesDocument, options);
+        }
+export type ArchivesQueryHookResult = ReturnType<typeof useArchivesQuery>;
+export type ArchivesLazyQueryHookResult = ReturnType<typeof useArchivesLazyQuery>;
+export type ArchivesSuspenseQueryHookResult = ReturnType<typeof useArchivesSuspenseQuery>;
+export type ArchivesQueryResult = Apollo.QueryResult<ArchivesQuery, ArchivesQueryVariables>;
+export const GetPrivacyPolicyContentDocument = gql`
+    query getPrivacyPolicyContent {
+  privacyPolicy {
+    content
+    createdAt
+    publishedAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetPrivacyPolicyContentQuery__
+ *
+ * To run a query within a React component, call `useGetPrivacyPolicyContentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPrivacyPolicyContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPrivacyPolicyContentQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPrivacyPolicyContentQuery(baseOptions?: Apollo.QueryHookOptions<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>(GetPrivacyPolicyContentDocument, options);
+      }
+export function useGetPrivacyPolicyContentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>(GetPrivacyPolicyContentDocument, options);
+        }
+export function useGetPrivacyPolicyContentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>(GetPrivacyPolicyContentDocument, options);
+        }
+export type GetPrivacyPolicyContentQueryHookResult = ReturnType<typeof useGetPrivacyPolicyContentQuery>;
+export type GetPrivacyPolicyContentLazyQueryHookResult = ReturnType<typeof useGetPrivacyPolicyContentLazyQuery>;
+export type GetPrivacyPolicyContentSuspenseQueryHookResult = ReturnType<typeof useGetPrivacyPolicyContentSuspenseQuery>;
+export type GetPrivacyPolicyContentQueryResult = Apollo.QueryResult<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>;
+export const GetRecentArticlesDocument = gql`
+    query getRecentArticles {
+  posts(sort: "createdAt:desc", pagination: {limit: 5}) {
+    documentId
+    title
+    slug
+    thumbnail {
+      url
+      alternativeText
+      width
+      height
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetRecentArticlesQuery__
+ *
+ * To run a query within a React component, call `useGetRecentArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentArticlesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRecentArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
+      }
+export function useGetRecentArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
+        }
+export function useGetRecentArticlesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
+        }
+export type GetRecentArticlesQueryHookResult = ReturnType<typeof useGetRecentArticlesQuery>;
+export type GetRecentArticlesLazyQueryHookResult = ReturnType<typeof useGetRecentArticlesLazyQuery>;
+export type GetRecentArticlesSuspenseQueryHookResult = ReturnType<typeof useGetRecentArticlesSuspenseQuery>;
+export type GetRecentArticlesQueryResult = Apollo.QueryResult<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>;

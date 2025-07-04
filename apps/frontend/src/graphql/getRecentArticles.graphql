@@ -1,17 +1,13 @@
-query Posts {
-    posts {
+query getRecentArticles {
+    posts (sort: "createdAt:desc", pagination:  {limit: 5}) {
         documentId
         title
-        excerpt
+        slug
         thumbnail {
             url
             alternativeText
             width
             height
-        }
-        tags {
-            name
-            slug
         }
         createdAt
         updatedAt

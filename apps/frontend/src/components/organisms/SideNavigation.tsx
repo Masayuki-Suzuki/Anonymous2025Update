@@ -2,6 +2,8 @@
 
 import SearchBar from '../molecules/SearchBar'
 import CategoryList from '../molecules/CategoryList'
+import ArchiveList from '../molecules/ArchiveList'
+import RecentPostsList from '../molecules/RecentPostsList'
 
 const SideNavigation = () => {
     return (
@@ -30,14 +32,12 @@ const SideNavigation = () => {
 
             {/* Archive Section */}
             <div>
-                {/* Archive component will be added here later */}
-                <h3>archives</h3>
+                <ArchiveList />
             </div>
 
             {/* Recent Posts Section */}
             <div>
-                {/* Recent Posts component will be added here later */}
-                <h3>recent posts</h3>
+                <RecentPostsList />
             </div>
 
             {/* Others Section */}

@@ -1,0 +1,8 @@
+query getPrivacyPolicyContent {
+    privacyPolicy {
+        content
+        createdAt
+        publishedAt
+        updatedAt
+    }
+}

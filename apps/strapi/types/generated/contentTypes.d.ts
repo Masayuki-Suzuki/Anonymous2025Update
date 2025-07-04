@@ -332,6 +332,30 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
     }
 }
 
+export interface ApiArchiveArchive extends Struct.CollectionTypeSchema {
+    collectionName: 'archives'
+    info: {
+        displayName: 'Archive'
+        pluralName: 'archives'
+        singularName: 'archive'
+    }
+    options: {
+        draftAndPublish: false
+    }
+    attributes: {
+        createdAt: Schema.Attribute.DateTime
+        createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
+        locale: Schema.Attribute.String & Schema.Attribute.Private
+        localizations: Schema.Attribute.Relation<'oneToMany', 'api::archive.archive'> & Schema.Attribute.Private
+        posts: Schema.Attribute.Relation<'oneToMany', 'api::post.post'>
+        publishedAt: Schema.Attribute.DateTime
+        slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required
+        title: Schema.Attribute.String & Schema.Attribute.Required & Schema.Attribute.Unique
+        updatedAt: Schema.Attribute.DateTime
+        updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
+    }
+}
+
 export interface ApiPostPost extends Struct.CollectionTypeSchema {
     collectionName: 'posts'
     info: {
@@ -343,6 +367,7 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
         draftAndPublish: true
     }
     attributes: {
+        archive: Schema.Attribute.Relation<'manyToOne', 'api::archive.archive'>
         content: Schema.Attribute.RichText
         createdAt: Schema.Attribute.DateTime
         createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
@@ -355,6 +380,29 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
         tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>
         thumbnail: Schema.Attribute.Media<'files' | 'images'>
         title: Schema.Attribute.String & Schema.Attribute.Required
+        updatedAt: Schema.Attribute.DateTime
+        updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
+    }
+}
+
+export interface ApiPrivacyPolicyPrivacyPolicy extends Struct.SingleTypeSchema {
+    collectionName: 'privacy_policies'
+    info: {
+        displayName: 'privacy policy'
+        pluralName: 'privacy-policies'
+        singularName: 'privacy-policy'
+    }
+    options: {
+        draftAndPublish: true
+    }
+    attributes: {
+        content: Schema.Attribute.RichText
+        createdAt: Schema.Attribute.DateTime
+        createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
+        locale: Schema.Attribute.String & Schema.Attribute.Private
+        localizations: Schema.Attribute.Relation<'oneToMany', 'api::privacy-policy.privacy-policy'> &
+            Schema.Attribute.Private
+        publishedAt: Schema.Attribute.DateTime
         updatedAt: Schema.Attribute.DateTime
         updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
     }
@@ -796,7 +844,9 @@ declare module '@strapi/strapi' {
             'admin::transfer-token': AdminTransferToken
             'admin::transfer-token-permission': AdminTransferTokenPermission
             'admin::user': AdminUser
+            'api::archive.archive': ApiArchiveArchive
             'api::post.post': ApiPostPost
+            'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy
             'api::tag.tag': ApiTagTag
             'plugin::content-releases.release': PluginContentReleasesRelease
             'plugin::content-releases.release-action': PluginContentReleasesReleaseAction

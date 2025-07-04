@@ -1,0 +1,13 @@
+query Archives {
+    archives{
+        documentId
+        title
+        slug
+        posts(filters: { publishedAt: { ne: null } }){
+            documentId
+            title
+            slug
+            publishedAt
+        }
+    }
+}

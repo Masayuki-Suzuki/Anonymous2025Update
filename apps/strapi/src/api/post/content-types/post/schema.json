@@ -44,6 +44,12 @@
       "relation": "manyToMany",
       "target": "api::tag.tag",
       "mappedBy": "posts"
+    },
+    "archive": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::archive.archive",
+      "inversedBy": "posts"
     }
   }
 }
