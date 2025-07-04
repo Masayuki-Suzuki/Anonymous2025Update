@@ -11386,6 +11386,7 @@ __metadata:
     eslint: "npm:^9"
     eslint-config-next: "npm:15.3.4"
     graphql: "npm:^16.11.0"
+    markdown-to-jsx: "npm:^7.7.10"
     next: "npm:15.3.4"
     postcss: "npm:^8.5.6"
     react: "npm:^19.1.0"
@@ -14598,6 +14599,15 @@ __metadata:
   bin:
     markdown-it: bin/markdown-it.js
   checksum: 10c0/4fe0c41bc4c318c2901dc2923470c259cab137a4ab870001038877b942c9cc65072923e2d957f785de69a9da27c55657bd531607ccfd258246bd72a8deb8c2ee
+  languageName: node
+  linkType: hard
+
+"markdown-to-jsx@npm:^7.7.10":
+  version: 7.7.10
+  resolution: "markdown-to-jsx@npm:7.7.10"
+  peerDependencies:
+    react: ">= 0.14.0"
+  checksum: 10c0/71dfdc91fde05f62e7db7bf23e6c67ac5c9d2d2be575689793a498c868db96c5082ca7aec582a93f8145c60bb9a2e5300705a9b00e05954dda7c15cc1499857a
   languageName: node
   linkType: hard
 

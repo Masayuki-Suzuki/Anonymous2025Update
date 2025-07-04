@@ -20,6 +20,7 @@
         "@next/env": "^15.3.4",
         "date-fns": "^4.1.0",
         "graphql": "^16.11.0",
+        "markdown-to-jsx": "^7.7.10",
         "next": "15.3.4",
         "react": "^19.1.0",
         "react-dom": "^19.1.0"

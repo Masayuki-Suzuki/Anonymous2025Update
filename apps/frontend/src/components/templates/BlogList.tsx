@@ -10,11 +10,8 @@ export default function BlogList({ initialPostData }: BlogListProps) {
     return (
         <ApolloWrapper>
             <div>
-                <h1>Articles</h1>
                 <div className="blog-list">
-                    {initialPostData.posts.map((post) =>
-                        post && <BlogCard key={post.documentId} post={post} />
-                    )}
+                    {initialPostData.posts.map((post) => post && <BlogCard key={post.documentId} post={post} />)}
                 </div>
             </div>
         </ApolloWrapper>
