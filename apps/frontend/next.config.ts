@@ -1,9 +1,4 @@
 import type { NextConfig } from 'next'
-import createMDX from '@next/mdx'
-
-const withMDX = createMDX({
-    extension: /\.mdx?$/,
-})
 
 const nextConfig: NextConfig = {
     reactStrictMode: true,
@@ -33,4 +28,4 @@ const nextConfig: NextConfig = {
     },
 }
 
-export default withMDX(nextConfig)
+export default nextConfig

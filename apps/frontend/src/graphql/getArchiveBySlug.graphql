@@ -1,0 +1,23 @@
+query GetArchiveBySlug($slug: String!) {
+    archives(filters: { slug: { eq: $slug } }) {
+        documentId
+        title
+        slug
+        posts(filters: { publishedAt: { ne: null } }){
+            documentId
+            title
+            slug
+            publishedAt
+            thumbnail {
+                url
+                alternativeText
+                width
+                height
+            }
+            tags {
+                name
+                slug
+            }
+        }
+    }
+}

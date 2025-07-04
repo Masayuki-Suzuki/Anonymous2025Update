@@ -3,7 +3,7 @@ query Archives {
         documentId
         title
         slug
-        posts(filters: { publishedAt: { ne: null } }){
+        posts(filters: { publishedAt: { ne: null } }, hasTags: false){
             documentId
             title
             slug

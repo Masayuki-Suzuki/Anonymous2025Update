@@ -21,7 +21,7 @@ const ArchiveItem: FC<ArchiveItemProps> = ({ title, slug, postCount, year, month
 
     return (
         <div>
-            <Link href={`/posts/archive/${slug}`}>
+            <Link href={`/archives/${slug}`}>
                 <span>{displayText}</span>
                 <span>{postCount}</span>
             </Link>
