@@ -62,7 +62,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
 
             {/* Read more link */}
             <div className="blog-card-read-more">
-                <Link href={slug ? `/post/${slug}` : `/post/${documentId}`}>READ MORE</Link>
+                <Link href={`/posts/${slug}`}>READ MORE</Link>
             </div>
 
             {/* Tags */}

@@ -1,7 +1,13 @@
-query Posts {
-    posts {
+type PaginationArg {
+    page: Int!
+    pageSize: Int!
+}
+
+query Posts($pagination: PaginationArg) {
+    posts(sort: "createdAt:desc", pagination: $pagination) {
         documentId
         title
+        slug
         excerpt
         thumbnail {
             url
@@ -16,4 +22,13 @@ query Posts {
         createdAt
         updatedAt
     }
+    posts_connection(pagination: $pagination) {
+        pageInfo {
+            total
+            pageCount
+            page
+            pageSize
+        }
+    }
 }
+

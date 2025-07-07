@@ -14,8 +14,8 @@ export default function SearchResultsList({ initialPostData }: SearchResultsList
         <ApolloWrapper>
             <div>
                 <div className="search-results-list">
-                    {initialPostData.posts.map((post) =>
-                        post && <SearchResultCard key={post.documentId} post={post} />
+                    {initialPostData.posts.map(
+                        (post) => post && <SearchResultCard key={post.documentId} post={post} />
                     )}
                 </div>
             </div>

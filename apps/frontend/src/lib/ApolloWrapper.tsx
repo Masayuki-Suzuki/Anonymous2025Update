@@ -17,7 +17,15 @@ export default function ApolloWrapper({ children }: React.PropsWithChildren) {
 
         return new ApolloClient({
             cache: new InMemoryCache(),
-            link: httpLink,
+            link: typeof window === 'undefined'
+                ? new SSRMultipartLink({
+                    stripDefer: true,
+                    cutoffDelay: 5000,
+                  }).split(
+                    () => true,
+                    httpLink,
+                  )
+                : httpLink,
         })
     }
 

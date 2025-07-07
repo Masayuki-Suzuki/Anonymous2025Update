@@ -4,6 +4,7 @@ import SearchBar from '../molecules/SearchBar'
 import CategoryList from '../molecules/CategoryList'
 import ArchiveList from '../molecules/ArchiveList'
 import RecentPostsList from '../molecules/RecentPostsList'
+import OthersList from '../molecules/OthersList'
 
 const SideNavigation = () => {
     return (
@@ -42,8 +43,7 @@ const SideNavigation = () => {
 
             {/* Others Section */}
             <div>
-                {/* Others component will be added here later */}
-                <h3>others</h3>
+                <OthersList />
             </div>
         </aside>
     )

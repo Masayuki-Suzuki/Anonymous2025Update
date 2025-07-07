@@ -1,0 +1,19 @@
+query GetOneArticleByDocumentID($documentId: ID!) {
+    post(documentId: $documentId) {
+        title
+        thumbnail {
+            documentId
+            height
+            width
+            url
+            name
+            alternativeText
+        }
+        tags {
+            name
+            documentId
+            slug
+        }
+        content
+    }
+}

@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, differenceInHours } from 'date-fns';
 
 /**
  * Formats a date string to a human-readable format
@@ -27,7 +27,18 @@ export const getFormattedDates = (
 } => {
   const formattedCreatedAt = formatDate(createdAt);
   const formattedUpdatedAt = formatDate(updatedAt);
-  const showUpdatedDate = formattedUpdatedAt && formattedCreatedAt !== formattedUpdatedAt;
+
+  // Only show updated date if both dates exist and the difference is at least 24 hours
+  let showUpdatedDate = false;
+
+  if (createdAt && updatedAt) {
+    const createdDate = parseISO(createdAt);
+    const updatedDate = parseISO(updatedAt);
+    const hoursDifference = differenceInHours(updatedDate, createdDate);
+
+    // Show updated date if the difference is at least 24 hours (1 day)
+    showUpdatedDate = hoursDifference >= 24;
+  }
 
   return {
     formattedCreatedAt,

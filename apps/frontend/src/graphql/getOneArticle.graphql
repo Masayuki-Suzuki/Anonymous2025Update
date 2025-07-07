@@ -1,0 +1,19 @@
+query GetOneArticle($slug: String!) {
+    posts(filters: { slug: { eq: $slug } }) {
+        documentId
+        title
+        content
+        createdAt
+        updatedAt
+        thumbnail {
+            url
+            alternativeText
+            width
+            height
+        }
+        tags {
+            name
+            slug
+        }
+    }
+}

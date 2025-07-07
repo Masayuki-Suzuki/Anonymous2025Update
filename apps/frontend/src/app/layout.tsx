@@ -2,6 +2,12 @@ import './globals.css'
 import { Lato } from 'next/font/google'
 import Header from '@/components/organisms/Header'
 import SideNavigation from '@/components/organisms/SideNavigation'
+import Footer from '@/components/organisms/Footer'
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+
+// Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+config.autoAddCss = false
 
 const lato = Lato({
     weight: ['400', '700'],
@@ -25,6 +31,7 @@ export default function RootLayout({
                         <SideNavigation />
                     </aside>
                 </div>
+                <Footer />
             </body>
         </html>
     )

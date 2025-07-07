@@ -39,7 +39,7 @@ const SearchResultCard = ({ post }: SearchResultCardProps) => {
 
       {/* Read more link */}
       <div className="search-result-read-more">
-        <Link href={slug ? `/post/${slug}` : `/post/${documentId}`}>READ MORE</Link>
+        <Link href={`/posts/${slug}`}>READ MORE</Link>
       </div>
 
       {/* Tags */}
