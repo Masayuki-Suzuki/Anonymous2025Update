@@ -19,6 +19,20 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type About = {
+  __typename?: 'About';
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  documentId: Scalars['ID']['output'];
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type AboutInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type Archive = {
   __typename?: 'Archive';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -96,6 +110,13 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type ComponentWidgetsAboutWidget = {
+  __typename?: 'ComponentWidgetsAboutWidget';
+  id: Scalars['ID']['output'];
+  profile_image: UploadFile;
+  text_content: Scalars['String']['output'];
+};
+
 export type DateTimeFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
@@ -157,7 +178,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type GenericMorph = Archive | I18NLocale | Post | PrivacyPolicy | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | Tag | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = About | Archive | ComponentWidgetsAboutWidget | I18NLocale | Post | PrivacyPolicy | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | Tag | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -275,6 +296,7 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteAbout?: Maybe<DeleteMutationResponse>;
   deleteArchive?: Maybe<DeleteMutationResponse>;
   deletePost?: Maybe<DeleteMutationResponse>;
   deletePrivacyPolicy?: Maybe<DeleteMutationResponse>;
@@ -295,6 +317,7 @@ export type Mutation = {
   register: UsersPermissionsLoginPayload;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateAbout?: Maybe<About>;
   updateArchive?: Maybe<Archive>;
   updatePost?: Maybe<Post>;
   updatePrivacyPolicy?: Maybe<PrivacyPolicy>;
@@ -420,6 +443,12 @@ export type MutationResetPasswordArgs = {
   code: Scalars['String']['input'];
   password: Scalars['String']['input'];
   passwordConfirmation: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateAboutArgs = {
+  data: AboutInput;
+  status?: InputMaybe<PublicationStatus>;
 };
 
 
@@ -588,6 +617,7 @@ export enum PublicationStatus {
 
 export type Query = {
   __typename?: 'Query';
+  about?: Maybe<About>;
   archive?: Maybe<Archive>;
   archives: Array<Maybe<Archive>>;
   archives_connection?: Maybe<ArchiveEntityResponseCollection>;
@@ -617,6 +647,11 @@ export type Query = {
   usersPermissionsUser?: Maybe<UsersPermissionsUser>;
   usersPermissionsUsers: Array<Maybe<UsersPermissionsUser>>;
   usersPermissionsUsers_connection?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+};
+
+
+export type QueryAboutArgs = {
+  status?: InputMaybe<PublicationStatus>;
 };
 
 
@@ -1287,6 +1322,11 @@ export type SearchPostsQueryVariables = Exact<{
 
 export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
 
+export type AboutQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'About', content?: string | null } | null };
+
 export type GetArchiveBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
@@ -1481,6 +1521,45 @@ export type SearchPostsQueryHookResult = ReturnType<typeof useSearchPostsQuery>;
 export type SearchPostsLazyQueryHookResult = ReturnType<typeof useSearchPostsLazyQuery>;
 export type SearchPostsSuspenseQueryHookResult = ReturnType<typeof useSearchPostsSuspenseQuery>;
 export type SearchPostsQueryResult = Apollo.QueryResult<SearchPostsQuery, SearchPostsQueryVariables>;
+export const AboutDocument = gql`
+    query About {
+  about {
+    content
+  }
+}
+    `;
+
+/**
+ * __useAboutQuery__
+ *
+ * To run a query within a React component, call `useAboutQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAboutQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAboutQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAboutQuery(baseOptions?: Apollo.QueryHookOptions<AboutQuery, AboutQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AboutQuery, AboutQueryVariables>(AboutDocument, options);
+      }
+export function useAboutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AboutQuery, AboutQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AboutQuery, AboutQueryVariables>(AboutDocument, options);
+        }
+export function useAboutSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AboutQuery, AboutQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AboutQuery, AboutQueryVariables>(AboutDocument, options);
+        }
+export type AboutQueryHookResult = ReturnType<typeof useAboutQuery>;
+export type AboutLazyQueryHookResult = ReturnType<typeof useAboutLazyQuery>;
+export type AboutSuspenseQueryHookResult = ReturnType<typeof useAboutSuspenseQuery>;
+export type AboutQueryResult = Apollo.QueryResult<AboutQuery, AboutQueryVariables>;
 export const GetArchiveBySlugDocument = gql`
     query GetArchiveBySlug($slug: String!) {
   archives(filters: {slug: {eq: $slug}}) {

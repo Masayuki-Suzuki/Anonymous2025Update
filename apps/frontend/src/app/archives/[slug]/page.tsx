@@ -16,20 +16,18 @@ export default async function ArchivePage({
 
     const page = searchParams.p ? parseInt(searchParams.p, 10) : 1
 
+    // Use getClient to fetch the initial data
+    // Note: We're not changing this function as per requirements
     const { data } = await getClient().query<GetArchiveBySlugQuery>({
         query: GetArchiveBySlugDocument,
-        variables: { slug: params.slug, pagination: { page, pageSize: 2 } },
+        variables: { slug: params.slug },
     })
 
-    // Get the first archive from the result (should be the only one since we filtered by slug)
-    const archive = data?.archives?.[0]
-
     // If no archive is found, return a 404
-    if (!archive) {
+    if (!data?.archives?.[0]) {
         return <ArchivesEmptyState />
     }
 
-    // Since we can't paginate at the GraphQL level, we'll paginate at the component level
-    // We'll pass the current page to the ArchivePostsLoader
-    return <ArchivePostsLoader archive={archive} currentPage={page} />
+    // Pass the entire data object to the ArchivePostsLoader as initialArchiveData
+    return <ArchivePostsLoader initialArchiveData={data} />
 }

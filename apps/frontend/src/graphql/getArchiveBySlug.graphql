@@ -1,14 +1,9 @@
-type PaginationArg {
-    page: Int!
-    pageSize: Int!
-}
-
-query GetArchiveBySlug($slug: String!, $pagination: PaginationArg) {
+query GetArchiveBySlug($slug: String!) {
     archives(filters: { slug: { eq: $slug } }) {
         documentId
         title
         slug
-        posts(filters: { publishedAt: { ne: null } }){
+        posts(filters: { publishedAt: { ne: null } }) {
             documentId
             title
             slug
@@ -23,14 +18,6 @@ query GetArchiveBySlug($slug: String!, $pagination: PaginationArg) {
                 name
                 slug
             }
-        }
-    }
-    archives_connection(filters: { slug: { eq: $slug } }) {
-        pageInfo {
-            total
-            pageCount
-            page
-            pageSize
         }
     }
 }
