@@ -20,6 +20,7 @@ Current blog: [Anonymous Front-end Developer](https://anonymous-frontend.dev/)
 - CSS(Sass)
 - Typescript
 - React.js / Next.js
+- Tailwind CSS
 - Node.js
 - Strapi CMS
 - GraphQL

@@ -9,7 +9,7 @@ export default async function Home({ searchParams }: { searchParams: { p?: strin
 
     const { data, loading, error } = await getClient().query<PostsQuery>({
         query: PostsDocument,
-        variables: { pagination: { page, pageSize: 2 } },
+        variables: { pagination: { page, pageSize: 10 } },
     })
 
     return <BlogListLoader initialPostData={data} />

@@ -2,8 +2,10 @@
 
 const colors = {
     primary: '#3c3c3c',
+    secondary: '#16ACCE',
     'dark-gray': '#555',
     'mid-gray': '#777',
+    gray: '#ccc',
     'light-gray': '#f1f1f1',
 }
 
@@ -26,6 +28,7 @@ export default {
                 base: '1160px',
             },
             width: {
+                '45pct': '45%',
                 '95pct': '95%',
             },
             screens: {

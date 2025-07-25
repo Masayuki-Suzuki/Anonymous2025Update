@@ -11,6 +11,8 @@ const SearchBar = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
+        setSearchQuery('')
+
         if (!searchQuery) {
             router.push('/')
         }
@@ -21,16 +23,19 @@ const SearchBar = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="SEARCH..."
-            />
-            <button type="submit" aria-label="Search">
-                <FontAwesomeIcon icon={faSearch} />
-            </button>
+        <form onSubmit={handleSubmit} className="">
+            <div className="border border-gray flex items-center justify-between">
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="SEARCH..."
+                    className="focus:outline-none"
+                />
+                <button type="submit" aria-label="Search">
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
+            </div>
         </form>
     )
 }

@@ -25,9 +25,9 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <Header />
-                <div>
-                    <main>{children}</main>
-                    <aside>
+                <div className="w-95pct max-w-base mx-auto md:flex">
+                    <main className="md:w-2/3">{children}</main>
+                    <aside className="mt-16 md:mt-10 lg:mt-16 md:w-1/3">
                         <SideNavigation />
                     </aside>
                 </div>
