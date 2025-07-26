@@ -4,27 +4,22 @@ import dynamic from 'next/dynamic'
 
 // Create a placeholder component for SSR
 const OthersListPlaceholder = () => {
-  return (
-    <div>
-      <h3>others</h3>
-      <div>
-        <p>Loading others...</p>
-      </div>
-    </div>
-  )
+    return <p className="text-center py-4">Loading others...</p>
 }
 
 // Dynamically import the actual OthersList component with ssr: false
-const ClientOthersList = dynamic(
-  () => import('./ClientOthersList'),
-  {
+const ClientOthersList = dynamic(() => import('./ClientOthersList'), {
     ssr: false,
-    loading: () => <OthersListPlaceholder />
-  }
-)
+    loading: () => <OthersListPlaceholder />,
+})
 
 const OthersList = () => {
-  return <ClientOthersList />
+    return (
+        <div className="mt-10 font-lato">
+            <h3 className="nav-title">others</h3>
+            <ClientOthersList />
+        </div>
+    )
 }
 
 export default OthersList

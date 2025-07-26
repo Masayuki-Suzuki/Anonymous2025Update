@@ -24,17 +24,23 @@ const SearchBar = () => {
 
     return (
         <form onSubmit={handleSubmit} className="">
-            <div className="border border-gray flex items-center justify-between">
+            <div className="border border-gray flex items-center justify-between py-2">
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="SEARCH..."
-                    className="focus:outline-none"
+                    className="focus:outline-none text-base text-primary placeholder:text-gray py-2 px-4 w-full h-full"
                 />
-                <button type="submit" aria-label="Search">
-                    <FontAwesomeIcon icon={faSearch} />
-                </button>
+                <span className="h-full">
+                    <button
+                        type="submit"
+                        aria-label="Search"
+                        className="w-full h-full flex items-center justify-center py-2 px-4 border-l border-gray"
+                    >
+                        <FontAwesomeIcon icon={faSearch} color="#777" size="lg" />
+                    </button>
+                </span>
             </div>
         </form>
     )

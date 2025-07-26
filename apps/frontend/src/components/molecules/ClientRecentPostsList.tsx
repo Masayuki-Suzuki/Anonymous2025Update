@@ -14,26 +14,23 @@ const RecentPostsListContent = () => {
     }
 
     return (
-        <div>
-            <h3>recent posts</h3>
-            <div>
-                {data.posts.map(
-                    (post) =>
-                        post &&
-                        post.thumbnail && (
-                            <RecentPostItem
-                                key={post.documentId}
-                                title={post.title}
-                                slug={post.slug}
-                                createdAt={post.createdAt || ''}
-                                thumbnailUrl={post.thumbnail.url}
-                                thumbnailAlt={post.thumbnail.alternativeText || undefined}
-                                thumbnailWidth={post.thumbnail.width}
-                                thumbnailHeight={post.thumbnail.height}
-                            />
-                        )
-                )}
-            </div>
+        <div className="mt-5">
+            {data.posts.map(
+                (post) =>
+                    post &&
+                    post.thumbnail && (
+                        <RecentPostItem
+                            key={post.documentId}
+                            title={post.title}
+                            slug={post.slug}
+                            createdAt={post.createdAt || ''}
+                            thumbnailUrl={post.thumbnail.url}
+                            thumbnailAlt={post.thumbnail.alternativeText || undefined}
+                            thumbnailWidth={post.thumbnail.width}
+                            thumbnailHeight={post.thumbnail.height}
+                        />
+                    )
+            )}
         </div>
     )
 }

@@ -15,10 +15,11 @@ const SideNavigation = () => {
             </div>
 
             {/* Language Section */}
-            <div>
-                {/* Language component will be added here later */}
-                <h3>language</h3>
-            </div>
+            {/*<div>*/}
+            {/* Language component will be added here later */}
+            {/*<h3>language</h3>*/}
+            {/* Disabled for now since it's unnecessary */}
+            {/*</div>*/}
 
             {/* Categories Section */}
             <div>
@@ -28,7 +29,7 @@ const SideNavigation = () => {
             {/* About Section */}
             <div>
                 {/* About component will be added here later */}
-                <h3>about</h3>
+                <h3>about (Will be updated)</h3>
             </div>
 
             {/* Archive Section */}

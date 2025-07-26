@@ -43,3 +43,7 @@ a {
     font-size: 1rem;
     font-weight: 500;
 }
+
+.nav-title {
+    @apply uppercase text-lg text-primary leading-[1.1] font-lato mb-1.5 tracking-wide;
+}

@@ -29,24 +29,25 @@ const RecentPostItem: FC<RecentPostItemProps> = ({
     const strapiBaseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
 
     return (
-        <div>
-            <Link href={`/posts/${slug}`}>
-                <div>
+        <div className="mb-5 pb-4 border-b border-[#999]">
+            <Link
+                href={`/posts/${slug}`}
+                className="text-primary hover:text-secondary transition-colors duration-300 ease-in-out"
+            >
+                <div className="flex w-full">
                     {/* Thumbnail */}
-                    <div>
-                        <Image
-                            src={`${strapiBaseUrl}${thumbnailUrl}`}
-                            alt={thumbnailAlt || title}
-                            width={thumbnailWidth || 60}
-                            height={thumbnailHeight || 60}
-                            className="object-cover object-center w-1/3 max-w-[120px] aspect-square rounded-[100%]"
-                        />
-                    </div>
+                    <Image
+                        src={`${strapiBaseUrl}${thumbnailUrl}`}
+                        alt={thumbnailAlt || title}
+                        width={thumbnailWidth || 60}
+                        height={thumbnailHeight || 60}
+                        className="object-cover object-center w-1/3 max-w-[60px] aspect-square rounded-[100%]"
+                    />
 
                     {/* Text content */}
-                    <div>
-                        <div>{title}</div>
-                        <div>{formattedDate}</div>
+                    <div className="pl-4 font-lato w-full">
+                        <h4 className="text-base font-light mb-2.5 leading-tight">{title}</h4>
+                        <time className="text-right text-sm w-full block">{formattedDate}</time>
                     </div>
                 </div>
             </Link>

@@ -39,22 +39,19 @@ const ClientArchiveListContent = () => {
 
     return (
         <div>
-            <h3>archives</h3>
-            <div>
-                {processedArchives.map(
-                    (archive) =>
-                        archive && (
-                            <ArchiveItem
-                                key={archive.documentId}
-                                title={archive.title}
-                                slug={archive.slug}
-                                postCount={archive.postCount}
-                                year={archive.year}
-                                month={archive.month}
-                            />
-                        )
-                )}
-            </div>
+            {processedArchives.map(
+                (archive) =>
+                    archive && (
+                        <ArchiveItem
+                            key={archive.documentId}
+                            title={archive.title}
+                            slug={archive.slug}
+                            postCount={archive.postCount}
+                            year={archive.year}
+                            month={archive.month}
+                        />
+                    )
+            )}
         </div>
     )
 }
@@ -70,12 +67,22 @@ const ClientArchiveList = () => {
 // Helper function to get month number from month name
 function getMonthNumber(monthName: string): number {
     const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ]
 
-    const index = monthNames.findIndex(name => name.toLowerCase() === monthName.toLowerCase());
-    return index !== -1 ? index + 1 : NaN; // Return NaN if month name is not found
+    const index = monthNames.findIndex((name) => name.toLowerCase() === monthName.toLowerCase())
+    return index !== -1 ? index + 1 : NaN // Return NaN if month name is not found
 }
 
 export default ClientArchiveList
