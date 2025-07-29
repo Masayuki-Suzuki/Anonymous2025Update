@@ -1,4 +1,5 @@
 import { processArchives, getArchives } from '@/lib/archiveUtils'
+import ListWrapper from '../atoms/ListWrapper'
 import ArchiveListContent from './ArchiveListContent'
 
 // Main ArchiveList component
@@ -7,10 +8,9 @@ const ArchiveList = async () => {
   const processedArchives = processArchives(archives)
 
   return (
-    <div className="mt-10 font-lato">
-      <h3 className="nav-title">archives</h3>
+    <ListWrapper title="archives">
       <ArchiveListContent processedArchives={processedArchives} />
-    </div>
+    </ListWrapper>
   )
 }
 

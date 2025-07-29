@@ -1,4 +1,5 @@
 import ArchiveItem from '@/components/atoms/ArchiveItem'
+import EmptyState from '../atoms/EmptyState'
 import { ProcessedArchive } from '@/lib/archiveUtils'
 
 type ArchiveListContentProps = {
@@ -23,7 +24,7 @@ const ArchiveListContent = ({ processedArchives }: ArchiveListContentProps) => {
                     />
                 ))
             ) : (
-                <p className="text-center py-4">No archives</p>
+                <EmptyState message="No archives" />
             )}
         </div>
     )

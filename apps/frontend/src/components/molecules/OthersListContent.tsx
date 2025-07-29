@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import EmptyState from '../atoms/EmptyState'
 
 type OtherPage = {
     title: string
@@ -16,7 +17,7 @@ const OthersListContent = ({ pages }: OthersListContentProps) => {
     return (
         <div className="mt-2.5">
             {pages.length === 0 ? (
-                <p>No other pages found</p>
+                <EmptyState message="No other pages found" />
             ) : (
                 <ul>
                     {pages.map((page) => (

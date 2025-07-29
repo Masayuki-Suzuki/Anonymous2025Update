@@ -1,12 +1,12 @@
 import { otherPages } from '@/lib/otherPages'
+import ListWrapper from '../atoms/ListWrapper'
 import OthersListContent from './OthersListContent'
 
 const OthersList = () => {
     return (
-        <div className="mt-10 font-lato">
-            <h3 className="nav-title">others</h3>
+        <ListWrapper title="others">
             <OthersListContent pages={otherPages} />
-        </div>
+        </ListWrapper>
     )
 }
 

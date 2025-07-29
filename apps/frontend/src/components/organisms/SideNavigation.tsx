@@ -5,45 +5,33 @@ import RecentPostsList from '../molecules/RecentPostsList'
 import OthersList from '../molecules/OthersList'
 import AboutWidget from '../molecules/AboutWidget'
 
+/**
+ * SideNavigation component - displays the side navigation with all its sections
+ */
 const SideNavigation = async () => {
     return (
         <aside>
             {/* Search Bar */}
-            <div>
-                <SearchBar />
-            </div>
+            <SearchBar />
 
             {/* Language Section */}
-            {/*<div>*/}
             {/* Language component will be added here later */}
-            {/*<h3>language</h3>*/}
             {/* Disabled for now since it's unnecessary */}
-            {/*</div>*/}
 
             {/* Categories Section */}
-            <div>
-                <CategoryList />
-            </div>
+            <CategoryList />
 
             {/* About Section */}
-            <div>
-                <AboutWidget />
-            </div>
+            <AboutWidget />
 
             {/* Archive Section */}
-            <div>
-                <ArchiveList />
-            </div>
+            <ArchiveList />
 
             {/* Recent Posts Section */}
-            <div>
-                <RecentPostsList />
-            </div>
+            <RecentPostsList />
 
             {/* Others Section */}
-            <div>
-                <OthersList />
-            </div>
+            <OthersList />
         </aside>
     )
 }

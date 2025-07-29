@@ -1,23 +1,22 @@
-import { getClient } from '@/lib/apolloClient'
 import { GetAboutWidgetContentDocument, GetAboutWidgetContentQuery } from '@/generated/graphql'
+import { fetchData } from '@/lib/dataFetcher'
+import ListWrapper from '../atoms/ListWrapper'
 import AboutWidgetContent from '../atoms/AboutWidgetContent'
+import EmptyState from '../atoms/EmptyState'
 
 // This is a server component by default (no 'use client' directive)
 const AboutWidget = async () => {
-    // Fetch data using getClient for server-side rendering
-    const { data } = await getClient().query<GetAboutWidgetContentQuery>({
-        query: GetAboutWidgetContentDocument,
-    })
+    // Fetch data using the common data fetcher
+    const data = await fetchData<GetAboutWidgetContentQuery>(GetAboutWidgetContentDocument)
 
     return (
-        <div className="mt-10 font-lato">
-            <h3 className="nav-title">about</h3>
+        <ListWrapper title="about">
             {data?.aboutWidget ? (
                 <AboutWidgetContent content={data.aboutWidget.content} profileImage={data.aboutWidget.profile_image} />
             ) : (
-                <p>No about content found</p>
+                <EmptyState message="No about content found" />
             )}
-        </div>
+        </ListWrapper>
     )
 }
 

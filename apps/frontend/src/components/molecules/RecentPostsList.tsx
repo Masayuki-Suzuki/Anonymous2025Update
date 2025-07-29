@@ -1,24 +1,16 @@
-import { getClient } from '@/lib/apolloClient'
 import { GetRecentArticlesDocument, GetRecentArticlesQuery } from '@/generated/graphql'
+import { fetchData } from '@/lib/dataFetcher'
+import ListWrapper from '../atoms/ListWrapper'
 import RecentPostsListContent from './RecentPostsListContent'
 
-// This function fetches data during SSR
-async function fetchRecentPosts() {
-    const { data } = await getClient().query<GetRecentArticlesQuery>({
-        query: GetRecentArticlesDocument,
-    })
-    return data
-}
-
 const RecentPostsList = async () => {
-    // Fetch data during SSR
-    const data = await fetchRecentPosts()
+    // Fetch data using the common data fetcher
+    const data = await fetchData<GetRecentArticlesQuery>(GetRecentArticlesDocument)
 
     return (
-        <div className="mt-10 font-lato">
-            <h3 className="nav-title">recent posts</h3>
+        <ListWrapper title="recent posts">
             <RecentPostsListContent data={data} />
-        </div>
+        </ListWrapper>
     )
 }
 

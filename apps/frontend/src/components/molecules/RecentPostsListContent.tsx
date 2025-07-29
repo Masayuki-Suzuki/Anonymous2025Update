@@ -1,4 +1,5 @@
 import RecentPostItem from '../atoms/RecentPostItem'
+import EmptyState from '../atoms/EmptyState'
 import { GetRecentArticlesQuery } from '@/generated/graphql'
 
 type RecentPostsListContentProps = {
@@ -10,7 +11,7 @@ type RecentPostsListContentProps = {
  */
 const RecentPostsListContent = ({ data }: RecentPostsListContentProps) => {
     if (!data || !data.posts || data.posts.length === 0) {
-        return <p>No recent posts found</p>
+        return <EmptyState message="No recent posts found" />
     }
 
     return (
