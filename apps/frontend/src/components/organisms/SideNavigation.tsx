@@ -1,12 +1,11 @@
-'use client'
-
 import SearchBar from '../molecules/SearchBar'
 import CategoryList from '../molecules/CategoryList'
 import ArchiveList from '../molecules/ArchiveList'
 import RecentPostsList from '../molecules/RecentPostsList'
 import OthersList from '../molecules/OthersList'
+import AboutWidget from '../molecules/AboutWidget'
 
-const SideNavigation = () => {
+const SideNavigation = async () => {
     return (
         <aside>
             {/* Search Bar */}
@@ -28,8 +27,7 @@ const SideNavigation = () => {
 
             {/* About Section */}
             <div>
-                {/* About component will be added here later */}
-                <h3>about (Will be updated)</h3>
+                <AboutWidget />
             </div>
 
             {/* Archive Section */}

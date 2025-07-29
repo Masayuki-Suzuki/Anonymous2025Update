@@ -1,24 +1,23 @@
-'use client'
+import { getClient } from '@/lib/apolloClient'
+import { GetRecentArticlesDocument, GetRecentArticlesQuery } from '@/generated/graphql'
+import RecentPostsListContent from './RecentPostsListContent'
 
-import dynamic from 'next/dynamic'
-
-// Create a placeholder component for SSR
-const RecentPostsListPlaceholder = () => {
-    return <p className="text-center py-4">Loading recent posts...</p>
+// This function fetches data during SSR
+async function fetchRecentPosts() {
+    const { data } = await getClient().query<GetRecentArticlesQuery>({
+        query: GetRecentArticlesDocument,
+    })
+    return data
 }
 
-// Dynamically import the actual RecentPostsList component with ssr: false
-// This ensures that both ApolloWrapper and Apollo hooks are only used on the client side
-const ClientRecentPostsList = dynamic(() => import('./ClientRecentPostsList'), {
-    ssr: false,
-    loading: () => <RecentPostsListPlaceholder />,
-})
+const RecentPostsList = async () => {
+    // Fetch data during SSR
+    const data = await fetchRecentPosts()
 
-const RecentPostsList = () => {
     return (
         <div className="mt-10 font-lato">
             <h3 className="nav-title">recent posts</h3>
-            <ClientRecentPostsList />
+            <RecentPostsListContent data={data} />
         </div>
     )
 }

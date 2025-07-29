@@ -1,15 +1,10 @@
-'use client'
-
 import Link from 'next/link'
 import { FC } from 'react'
+import { getMonthName } from '@/lib/dateUtils'
+import { ProcessedArchive } from '@/lib/archiveUtils'
 
-type ArchiveItemProps = {
-    title: string
-    slug: string
-    postCount: number
-    year: number
-    month?: number
-}
+// Use the properties from ProcessedArchive type
+type ArchiveItemProps = Pick<ProcessedArchive, 'title' | 'slug' | 'postCount' | 'year' | 'month'>
 
 const ArchiveItem: FC<ArchiveItemProps> = ({ title, slug, postCount, year, month }) => {
     // Format the display text based on whether it's current year or previous years
@@ -29,27 +24,6 @@ const ArchiveItem: FC<ArchiveItemProps> = ({ title, slug, postCount, year, month
             </Link>
         </div>
     )
-}
-
-// Helper function to get month name from month number
-function getMonthName(month: number): string {
-    const monthNames = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ]
-
-    // Month is 1-indexed in our props, but array is 0-indexed
-    return monthNames[month - 1]
 }
 
 export default ArchiveItem

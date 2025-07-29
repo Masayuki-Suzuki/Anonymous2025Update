@@ -1,0 +1,12 @@
+query getAboutWidgetContent {
+    aboutWidget {
+        content
+        profile_image {
+            alternativeText
+            url
+            name
+            width
+            height
+        }
+    }
+}

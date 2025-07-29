@@ -1,25 +1,44 @@
-'use client'
+import { getClient } from '@/lib/apolloClient'
+import { TagsDocument, TagsQuery } from '@/generated/graphql'
+import CategoryItem from '../atoms/CategoryItem'
 
-import dynamic from 'next/dynamic'
-
-// Create a placeholder component for SSR
-const CategoryListPlaceholder = () => {
-    return <p className="text-center py-4">Loading categories...</p>
+// This function fetches data during SSR
+async function fetchTags() {
+    const { data } = await getClient().query<TagsQuery>({
+        query: TagsDocument,
+    })
+    return data
 }
 
-// Dynamically import the actual CategoryList component with ssr: false
-// This ensures that both ApolloWrapper and Apollo hooks are only used on the client side
-const ClientCategoryList = dynamic(() => import('./ClientCategoryList'), {
-    ssr: false,
-    loading: () => <CategoryListPlaceholder />,
-})
+const CategoryList = async () => {
+    // Fetch data during SSR
+    const data = await fetchTags()
 
-const CategoryList = () => {
+    // Determine the content based on data availability
+    const content =
+        !data || !data.tags || data.tags.length === 0 ? (
+            <p>No categories</p>
+        ) : (
+            <div>
+                {data.tags.map(
+                    (tag) =>
+                        tag && (
+                            <CategoryItem
+                                key={tag.documentId}
+                                name={tag.name}
+                                slug={tag.slug}
+                                postCount={tag.posts.length}
+                            />
+                        )
+                )}
+            </div>
+        )
+
+    // Return with common wrapper and title
     return (
         <div className="mt-10 font-lato">
             <h3 className="nav-title">categories</h3>
-            {/*<CategoryListPlaceholder />*/}
-            <ClientCategoryList />
+            {content}
         </div>
     )
 }

@@ -33,6 +33,22 @@ export type AboutInput = {
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+export type AboutWidget = {
+  __typename?: 'AboutWidget';
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  documentId: Scalars['ID']['output'];
+  profile_image?: Maybe<UploadFile>;
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type AboutWidgetInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  profile_image?: InputMaybe<Scalars['ID']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type Archive = {
   __typename?: 'Archive';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -110,13 +126,6 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type ComponentWidgetsAboutWidget = {
-  __typename?: 'ComponentWidgetsAboutWidget';
-  id: Scalars['ID']['output'];
-  profile_image: UploadFile;
-  text_content: Scalars['String']['output'];
-};
-
 export type DateTimeFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
@@ -178,7 +187,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type GenericMorph = About | Archive | ComponentWidgetsAboutWidget | I18NLocale | Post | PrivacyPolicy | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | Tag | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = About | AboutWidget | Archive | I18NLocale | Post | PrivacyPolicy | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | Tag | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -297,6 +306,7 @@ export type Mutation = {
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   deleteAbout?: Maybe<DeleteMutationResponse>;
+  deleteAboutWidget?: Maybe<DeleteMutationResponse>;
   deleteArchive?: Maybe<DeleteMutationResponse>;
   deletePost?: Maybe<DeleteMutationResponse>;
   deletePrivacyPolicy?: Maybe<DeleteMutationResponse>;
@@ -318,6 +328,7 @@ export type Mutation = {
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   updateAbout?: Maybe<About>;
+  updateAboutWidget?: Maybe<AboutWidget>;
   updateArchive?: Maybe<Archive>;
   updatePost?: Maybe<Post>;
   updatePrivacyPolicy?: Maybe<PrivacyPolicy>;
@@ -448,6 +459,12 @@ export type MutationResetPasswordArgs = {
 
 export type MutationUpdateAboutArgs = {
   data: AboutInput;
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
+export type MutationUpdateAboutWidgetArgs = {
+  data: AboutWidgetInput;
   status?: InputMaybe<PublicationStatus>;
 };
 
@@ -618,6 +635,7 @@ export enum PublicationStatus {
 export type Query = {
   __typename?: 'Query';
   about?: Maybe<About>;
+  aboutWidget?: Maybe<AboutWidget>;
   archive?: Maybe<Archive>;
   archives: Array<Maybe<Archive>>;
   archives_connection?: Maybe<ArchiveEntityResponseCollection>;
@@ -651,6 +669,11 @@ export type Query = {
 
 
 export type QueryAboutArgs = {
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
+export type QueryAboutWidgetArgs = {
   status?: InputMaybe<PublicationStatus>;
 };
 
@@ -1322,10 +1345,20 @@ export type SearchPostsQueryVariables = Exact<{
 
 export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
 
+export type GetAboutPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAboutPageQuery = { __typename?: 'Query', about?: { __typename?: 'About', content?: string | null } | null };
+
 export type AboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'About', content?: string | null } | null };
+
+export type GetAboutWidgetContentQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAboutWidgetContentQuery = { __typename?: 'Query', aboutWidget?: { __typename?: 'AboutWidget', content?: string | null, profile_image?: { __typename?: 'UploadFile', alternativeText?: string | null, url: string, name: string, width?: number | null, height?: number | null } | null } | null };
 
 export type GetArchiveBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -1521,6 +1554,45 @@ export type SearchPostsQueryHookResult = ReturnType<typeof useSearchPostsQuery>;
 export type SearchPostsLazyQueryHookResult = ReturnType<typeof useSearchPostsLazyQuery>;
 export type SearchPostsSuspenseQueryHookResult = ReturnType<typeof useSearchPostsSuspenseQuery>;
 export type SearchPostsQueryResult = Apollo.QueryResult<SearchPostsQuery, SearchPostsQueryVariables>;
+export const GetAboutPageDocument = gql`
+    query GetAboutPage {
+  about {
+    content
+  }
+}
+    `;
+
+/**
+ * __useGetAboutPageQuery__
+ *
+ * To run a query within a React component, call `useGetAboutPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAboutPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAboutPageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAboutPageQuery(baseOptions?: Apollo.QueryHookOptions<GetAboutPageQuery, GetAboutPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAboutPageQuery, GetAboutPageQueryVariables>(GetAboutPageDocument, options);
+      }
+export function useGetAboutPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAboutPageQuery, GetAboutPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAboutPageQuery, GetAboutPageQueryVariables>(GetAboutPageDocument, options);
+        }
+export function useGetAboutPageSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAboutPageQuery, GetAboutPageQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAboutPageQuery, GetAboutPageQueryVariables>(GetAboutPageDocument, options);
+        }
+export type GetAboutPageQueryHookResult = ReturnType<typeof useGetAboutPageQuery>;
+export type GetAboutPageLazyQueryHookResult = ReturnType<typeof useGetAboutPageLazyQuery>;
+export type GetAboutPageSuspenseQueryHookResult = ReturnType<typeof useGetAboutPageSuspenseQuery>;
+export type GetAboutPageQueryResult = Apollo.QueryResult<GetAboutPageQuery, GetAboutPageQueryVariables>;
 export const AboutDocument = gql`
     query About {
   about {
@@ -1560,6 +1632,52 @@ export type AboutQueryHookResult = ReturnType<typeof useAboutQuery>;
 export type AboutLazyQueryHookResult = ReturnType<typeof useAboutLazyQuery>;
 export type AboutSuspenseQueryHookResult = ReturnType<typeof useAboutSuspenseQuery>;
 export type AboutQueryResult = Apollo.QueryResult<AboutQuery, AboutQueryVariables>;
+export const GetAboutWidgetContentDocument = gql`
+    query getAboutWidgetContent {
+  aboutWidget {
+    content
+    profile_image {
+      alternativeText
+      url
+      name
+      width
+      height
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAboutWidgetContentQuery__
+ *
+ * To run a query within a React component, call `useGetAboutWidgetContentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAboutWidgetContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAboutWidgetContentQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAboutWidgetContentQuery(baseOptions?: Apollo.QueryHookOptions<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>(GetAboutWidgetContentDocument, options);
+      }
+export function useGetAboutWidgetContentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>(GetAboutWidgetContentDocument, options);
+        }
+export function useGetAboutWidgetContentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>(GetAboutWidgetContentDocument, options);
+        }
+export type GetAboutWidgetContentQueryHookResult = ReturnType<typeof useGetAboutWidgetContentQuery>;
+export type GetAboutWidgetContentLazyQueryHookResult = ReturnType<typeof useGetAboutWidgetContentLazyQuery>;
+export type GetAboutWidgetContentSuspenseQueryHookResult = ReturnType<typeof useGetAboutWidgetContentSuspenseQuery>;
+export type GetAboutWidgetContentQueryResult = Apollo.QueryResult<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>;
 export const GetArchiveBySlugDocument = gql`
     query GetArchiveBySlug($slug: String!) {
   archives(filters: {slug: {eq: $slug}}) {

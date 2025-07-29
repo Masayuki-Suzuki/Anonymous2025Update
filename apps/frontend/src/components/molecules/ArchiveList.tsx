@@ -1,26 +1,17 @@
-'use client'
+import { processArchives, getArchives } from '@/lib/archiveUtils'
+import ArchiveListContent from './ArchiveListContent'
 
-import dynamic from 'next/dynamic'
+// Main ArchiveList component
+const ArchiveList = async () => {
+  const archives = await getArchives()
+  const processedArchives = processArchives(archives)
 
-// Create a placeholder component for SSR
-const ArchiveListPlaceholder = () => {
-    return <p className="text-center py-4">Loading archives...</p>
-}
-
-// Dynamically import the actual ArchiveList component with ssr: false
-// This ensures that both ApolloWrapper and Apollo hooks are only used on the client side
-const ClientArchiveList = dynamic(() => import('./ClientArchiveList'), {
-    ssr: false,
-    loading: () => <ArchiveListPlaceholder />,
-})
-
-const ArchiveList = () => {
-    return (
-        <div className="mt-10 font-lato">
-            <h3 className="nav-title">archives</h3>
-            <ClientArchiveList />
-        </div>
-    )
+  return (
+    <div className="mt-10 font-lato">
+      <h3 className="nav-title">archives</h3>
+      <ArchiveListContent processedArchives={processedArchives} />
+    </div>
+  )
 }
 
 export default ArchiveList

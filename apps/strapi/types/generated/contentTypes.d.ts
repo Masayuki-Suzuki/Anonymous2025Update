@@ -332,6 +332,30 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
     }
 }
 
+export interface ApiAboutWidgetAboutWidget extends Struct.SingleTypeSchema {
+    collectionName: 'about_widgets'
+    info: {
+        displayName: 'about widget'
+        pluralName: 'about-widgets'
+        singularName: 'about-widget'
+    }
+    options: {
+        draftAndPublish: true
+    }
+    attributes: {
+        content: Schema.Attribute.RichText
+        createdAt: Schema.Attribute.DateTime
+        createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
+        locale: Schema.Attribute.String & Schema.Attribute.Private
+        localizations: Schema.Attribute.Relation<'oneToMany', 'api::about-widget.about-widget'> &
+            Schema.Attribute.Private
+        profile_image: Schema.Attribute.Media<'images' | 'files'>
+        publishedAt: Schema.Attribute.DateTime
+        updatedAt: Schema.Attribute.DateTime
+        updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
+    }
+}
+
 export interface ApiAboutAbout extends Struct.SingleTypeSchema {
     collectionName: 'abouts'
     info: {
@@ -866,6 +890,7 @@ declare module '@strapi/strapi' {
             'admin::transfer-token': AdminTransferToken
             'admin::transfer-token-permission': AdminTransferTokenPermission
             'admin::user': AdminUser
+            'api::about-widget.about-widget': ApiAboutWidgetAboutWidget
             'api::about.about': ApiAboutAbout
             'api::archive.archive': ApiArchiveArchive
             'api::post.post': ApiPostPost
