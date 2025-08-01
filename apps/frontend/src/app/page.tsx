@@ -4,8 +4,9 @@ import BlogList from '@/components/molecules/BlogList'
 // import ServerBlogCard from '@/components/molecules/ServerBlogCard'
 // import ClientPagination from '@/components/molecules/ClientPagination'
 
-export default async function Home({ searchParams }: { searchParams: { p?: string } }) {
-    const page = searchParams.p ? parseInt(searchParams.p, 10) : 1
+export default async function Home({ searchParams }: { searchParams: Promise<{ p?: string }> }) {
+    const params = await searchParams
+    const page = params.p ? parseInt(params.p, 10) : 1
 
     // Fetch data on the server
     const { data } = await getClient().query<PostsQuery>({

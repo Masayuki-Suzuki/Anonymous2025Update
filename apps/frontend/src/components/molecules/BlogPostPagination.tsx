@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PaginationButton from '../atoms/PaginationButton'
 import usePagination from '@/lib/usePagination'
 import { PostsQuery, usePostsLazyQuery } from '@/generated/graphql'
+import { useSearchParams } from 'next/navigation'
 
 interface BlogPostPaginationProps {
     currentPage: number
@@ -14,20 +15,31 @@ interface BlogPostPaginationProps {
 export default function BlogPostPagination({ currentPage, totalPages, setPostData }: BlogPostPaginationProps) {
     const updateUrlWithoutNavigation = usePagination()
     const [fetchPosts] = usePostsLazyQuery()
+    const searchParams = useSearchParams()
 
     // Local state to track current page
     const [page, setPage] = useState(currentPage)
 
-    // Handle page change
-    const handlePageChange = (newPage: number) => {
-        if (newPage === page || newPage < 1 || newPage > totalPages) return
+    const updatePage = (newPage: number, withURL = true) => {
         setPage(newPage)
-        updateUrlWithoutNavigation(newPage)
+        if (withURL) {
+            updateUrlWithoutNavigation(newPage)
+        }
         void onPageChange(newPage)
     }
 
+    useEffect(() => {
+        const newPage = Number(searchParams.get('p')) || 1
+        updatePage(newPage, false)
+    }, [searchParams])
+
+    // Handle page change
+    const handlePageChange = (newPage: number) => {
+        if (newPage === page || newPage < 1 || newPage > totalPages) return
+        updatePage(newPage)
+    }
+
     async function onPageChange(newPage: number) {
-        console.log(process.env.NEXT_PUBLIC_PAGE_SIZE)
         const { data } = await fetchPosts({
             variables: {
                 pagination: {

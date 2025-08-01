@@ -12,7 +12,7 @@ function usePagination() {
 
     const updateUrlWithoutNavigation = (page: number) => {
         const newUrl = `${pathname}?${createQueryString('p', page.toString())}`
-        window.history.pushState({}, '', newUrl)
+        window.history.pushState({ page }, '', newUrl)
     }
 
     return updateUrlWithoutNavigation
