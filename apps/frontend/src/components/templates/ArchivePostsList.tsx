@@ -25,7 +25,7 @@ export default function ArchivePostsList({ initialArchiveData }: ArchivePostsLoa
 
     // Number of posts to display per page - configurable
     // You can change this value to adjust the number of posts per page
-    const postsPerPage = 6
+    const postsPerPage = 2
 
     // Get the current archive from the state
     const archive = archiveData.archives && archiveData.archives[0] ? archiveData.archives[0] : undefined

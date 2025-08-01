@@ -7,6 +7,7 @@ const colors = {
     'mid-gray': '#777',
     gray: '#ccc',
     'light-gray': '#f1f1f1',
+    'secondary-hover': '#00698A',
 }
 
 export default {

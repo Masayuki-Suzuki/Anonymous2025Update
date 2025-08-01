@@ -1,8 +1,11 @@
 import { GetArchiveBySlugQuery, PostsQuery, SearchPostsQuery } from '@/generated/graphql'
 
 export type BlogListProps = {
-    initialPostData: PostsQuery
+    initialPostData: PostsQuery | null
+    initialPage?: number
 }
+
+export type PostData = Pick<PostsQuery, 'posts'>
 
 export type ArchivePostsLoaderProps = {
     initialArchiveData: GetArchiveBySlugQuery

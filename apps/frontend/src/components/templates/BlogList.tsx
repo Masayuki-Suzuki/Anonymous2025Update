@@ -1,21 +1,25 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { BlogListProps } from '@/types/posts'
 import BlogCard from '../molecules/BlogCard'
 import Pagination from '../molecules/Pagination'
 import { usePostsQuery, PostsQuery, PostsQueryVariables } from '@/generated/graphql'
 
-export default function BlogList({ initialPostData }: BlogListProps) {
+export default function BlogList({ initialPostData, initialPage }: BlogListProps) {
     // Get pagination data from posts_connection
-    const pageInfo = initialPostData.posts_connection?.pageInfo
-    const initialPage = pageInfo?.page || 1
+    const pageInfo = initialPostData?.posts_connection?.pageInfo
+    const pageFromProps = initialPage || pageInfo?.page || 1
     const totalPages = pageInfo?.pageCount || 1
-    console.log('initialPostData:', initialPostData)
-    console.log('totalPages:', totalPages)
+
+    // Next.js navigation hooks
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
 
     // State to store the current page
-    const [currentPage, setCurrentPage] = useState(initialPage)
+    const [currentPage, setCurrentPage] = useState(pageFromProps)
     const [isMounted, setIsMounted] = useState(false)
 
     // State to track if we're on the initial client-side render
@@ -26,7 +30,7 @@ export default function BlogList({ initialPostData }: BlogListProps) {
         variables: {
             pagination: {
                 page: currentPage,
-                pageSize: 3,
+                pageSize: 2, // Use consistent page size with server-side query
             },
         },
         // Skip the query if:
@@ -57,6 +61,20 @@ export default function BlogList({ initialPostData }: BlogListProps) {
         }
     }, [])
 
+    // Update URL without page reload when page changes
+    useEffect(() => {
+        if (!isMounted || (currentPage === pageFromProps && isInitialRender)) return
+
+        // Create new URLSearchParams object
+        const params = new URLSearchParams(searchParams.toString())
+
+        // Update or add the page parameter
+        params.set('p', currentPage.toString())
+
+        // Update URL without causing a page reload
+        window.history.replaceState(null, '', `${pathname}?${params.toString()}`)
+    }, [currentPage, isMounted, isInitialRender, pathname, searchParams, pageFromProps])
+
     // Handle page change
     const handlePageChange = (newPage: number) => {
         if (!isMounted) return // Don't do anything if not mounted yet
@@ -77,6 +95,8 @@ export default function BlogList({ initialPostData }: BlogListProps) {
             <div className="flex flex-wrap w-full lg:gap-[5%]">
                 {loading ? (
                     <div>Loading...</div>
+                ) : error ? (
+                    <div>Error loading posts. Please try again.</div>
                 ) : (
                     postsData.posts.map((post) => post && <BlogCard key={post.documentId} post={post} />)
                 )}

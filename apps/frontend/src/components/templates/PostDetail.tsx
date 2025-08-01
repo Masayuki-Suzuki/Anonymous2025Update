@@ -18,7 +18,6 @@ import {
     BlueskyIcon,
     XIcon,
 } from 'react-share'
-import { faSquare } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
 

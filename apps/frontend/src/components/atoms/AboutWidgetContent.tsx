@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Markdown from 'markdown-to-jsx'
+import MarkDownWrapper from '@/components/atoms/MarkDownWrapper'
 
 interface AboutWidgetContentProps {
     content?: string | null
@@ -17,16 +18,21 @@ const strapiBaseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:13
 
 const AboutWidgetContent = ({ content, profileImage }: AboutWidgetContentProps) => {
     return (
-        <div>
-            {content && <Markdown>{content}</Markdown>}
+        <div className="about-widget flex">
+            {content && (
+                <MarkDownWrapper additionalClassName="pr-[0.75em] text-primary font-light text-sm leading-snug">
+                    {content}
+                </MarkDownWrapper>
+            )}
 
             {profileImage && (
-                <div>
+                <div className="w-[37.5%] max-w-[135px] flex-shrink-0 shrink-0">
                     <Image
                         src={`${strapiBaseUrl}${profileImage.url}`}
                         alt={profileImage.alternativeText || profileImage.name || 'Profile image'}
                         width={profileImage.width || 300}
                         height={profileImage.height || 300}
+                        className="w-full aspect-square"
                     />
                 </div>
             )}

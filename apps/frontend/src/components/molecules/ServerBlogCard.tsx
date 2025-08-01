@@ -1,22 +1,16 @@
-import { PostsQuery, SearchPostsQuery } from '@/generated/graphql'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTag } from '@fortawesome/free-solid-svg-icons'
+import { PostsQuery } from '@/generated/graphql'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getFormattedDates } from '@/lib/dateUtils'
 
-// Union type to handle both query types with proper type safety
-// Create a merged type that makes properties only in PostsQuery optional
+// Type for the post data received from server
 type PostType = {
-    // Common properties in both query types
     documentId: string
     title: string
     slug: string
     createdAt?: any | null
     updatedAt?: any | null
     tags: Array<{ name: string; slug: string } | null>
-
-    // Properties only in PostsQuery that need to be optional
     excerpt?: string | null
     thumbnail?: {
         url: string
@@ -26,11 +20,12 @@ type PostType = {
     } | null
 }
 
-type BlogCardProps = {
+type ServerBlogCardProps = {
     post: PostType
 }
 
-const BlogCard = ({ post }: BlogCardProps) => {
+// Server component version of BlogCard without client-side features
+export default function ServerBlogCard({ post }: ServerBlogCardProps) {
     // Use optional chaining to handle potentially missing fields
     const { title, thumbnail, excerpt, tags, createdAt, updatedAt, slug } = post
 
@@ -43,7 +38,6 @@ const BlogCard = ({ post }: BlogCardProps) => {
     const truncatedTitle = title.length > 100 ? `${title.substring(0, 100)}...` : title
 
     // Truncate excerpt if it's too long (approximately 300 characters)
-    // Handle case where excerpt might be undefined in SearchPostsQuery
     const truncatedExcerpt = excerpt && excerpt.length > 300 ? `${excerpt.substring(0, 300)}...` : excerpt
 
     return (
@@ -63,9 +57,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
 
             {/* Title */}
             <h2 className="blog-card-title text-2xl font-semibold leading-[1.2] mt-6 text-primary">
-                <Link href={`/posts/${slug}`} className="hover:text-secondary transition-colors duration-300">
-                    {truncatedTitle}
-                </Link>
+                <Link href={`/posts/${slug}`}>{truncatedTitle}</Link>
             </h2>
 
             {/* Date information */}
@@ -83,10 +75,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
 
             {/* Read more link */}
             <div className="blog-card-read-more flex justify-end py-2.5">
-                <Link
-                    href={`/posts/${slug}`}
-                    className="text-mid-gray font-semibold hover:text-secondary transition-colors duration-300 uppercase"
-                >
+                <Link href={`/posts/${slug}`} className="text-mid-gray font-semibold uppercase">
                     read more
                 </Link>
             </div>
@@ -94,15 +83,12 @@ const BlogCard = ({ post }: BlogCardProps) => {
             {/* Tags */}
             {tags.length > 0 && (
                 <div className="blog-card-tags border-t border-gray flex items-center leading-0 py-2.5">
-                    <FontAwesomeIcon icon={faTag} color="#777" />
+                    {/* Replace FontAwesome with a simple tag icon or text */}
+                    <span className="blog-card-tags-icon"></span>
                     <div className="blog-card-tags-list flex items-center flex-wrap text-xs ml-2.5 gap-2.5">
                         {tags.map((tag) =>
                             tag ? (
-                                <Link
-                                    href={`/posts/tags/${tag.slug}`}
-                                    key={tag.slug}
-                                    className="text-mid-gray hover:text-secondary transition-colors duration-300"
-                                >
+                                <Link href={`/posts/tags/${tag.slug}`} key={tag.slug} className="text-mid-gray">
                                     <span className="blog-card-tag uppercase leading-none">{tag.name}</span>
                                 </Link>
                             ) : null
@@ -113,5 +99,3 @@ const BlogCard = ({ post }: BlogCardProps) => {
         </div>
     )
 }
-
-export default BlogCard
