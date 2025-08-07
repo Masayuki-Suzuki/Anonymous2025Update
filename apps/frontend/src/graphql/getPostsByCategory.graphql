@@ -1,7 +1,7 @@
-query GetArchiveBySlug($slug: String!) {
-    archives(filters: { slug: { eq: $slug } }) {
+query GetPostByTagSlug($slug: String!) {
+    tags(filters: { slug: { eq: $slug } }) {
         documentId
-        title
+        name
         slug
         posts(filters: { publishedAt: { ne: null } }) {
             documentId

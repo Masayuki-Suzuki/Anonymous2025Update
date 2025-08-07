@@ -27,6 +27,7 @@
         "react": "^19.1.1",
         "react-dom": "^19.1.1",
         "react-share": "^5.2.2",
+        "react-syntax-highlighter": "^15.6.1",
         "tailwindcss": "^4.1.11"
     },
     "devDependencies": {
@@ -39,6 +40,7 @@
         "@types/node": "^24",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "@types/react-syntax-highlighter": "^15.5.13",
         "autoprefixer": "^10.4.21",
         "eslint": "^9",
         "eslint-config-next": "15.4.4",

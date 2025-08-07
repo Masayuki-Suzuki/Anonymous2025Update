@@ -48,15 +48,20 @@ a {
     @apply uppercase text-lg text-primary leading-[1.1] font-lato mb-1.5 tracking-wide;
 }
 
-.markdown-container a {
-    @apply text-secondary hover:text-secondary-hover transition-colors duration-200 ease-in-out font-normal;
-}
-.markdown-container a:hover {
-    text-decoration: underline;
-}
-
 .blog-card-tags-icon::before {
     content: '\f02b';
     color: #3c3c3c;
     font-family: FontAwesome;
+}
+
+.markdown-container ul ul {
+    list-style-type: circle;
+}
+
+.markdown-container ol ol {
+    list-style-type: lower-roman;
+}
+
+.markdown-container blockquote p {
+    @apply m-0;
 }

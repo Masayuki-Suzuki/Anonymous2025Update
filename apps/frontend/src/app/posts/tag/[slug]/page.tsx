@@ -1,8 +1,9 @@
 import { getClient } from '@/lib/apolloClient'
-import { GetArchiveBySlugDocument, GetArchiveBySlugQuery } from '@/generated/graphql'
+import { GetPostByTagSlugDocument, GetPostByTagSlugQuery } from '@/generated/graphql'
 import ArchivePostsList from '@/components/templates/ArchivePostsList'
+import CategoryPostsList from '@/components/templates/CategoryPostsList'
 
-export default async function ArchivePage({
+export default async function CategoryPage({
     params,
     searchParams,
 }: {
@@ -17,10 +18,10 @@ export default async function ArchivePage({
 
     // Use getClient to fetch the initial data
     // Note: We're not changing this function as per requirements
-    const { data } = await getClient().query<GetArchiveBySlugQuery>({
-        query: GetArchiveBySlugDocument,
+    const { data } = await getClient().query<GetPostByTagSlugQuery>({
+        query: GetPostByTagSlugDocument,
         variables: { slug },
     })
 
-    return <ArchivePostsList initialArchiveData={data} page={page} />
+    return <CategoryPostsList initialPostData={data} page={page} />
 }

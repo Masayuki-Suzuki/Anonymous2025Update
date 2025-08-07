@@ -31,8 +31,11 @@ function BlogList({ initialPostData }: BlogListProps) {
 
     return (
         <>
-            <div className="flex flex-wrap w-full lg:gap-[5%]">
-                {postData && postData.posts.map((post) => post && <BlogCard key={post.documentId} post={post} />)}
+            <div className="flex flex-wrap w-95pct lg:gap-[5%]">
+                {postData &&
+                    postData.posts.map(
+                        (post, index) => post && <BlogCard key={post.documentId} post={post} index={index} />
+                    )}
             </div>
             {pageInfo && (
                 <ApolloWrapper>

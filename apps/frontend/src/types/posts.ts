@@ -1,19 +1,31 @@
-import { GetArchiveBySlugQuery, PostsQuery, SearchPostsQuery } from '@/generated/graphql'
+import { GetArchiveBySlugQuery, GetPostByTagSlugQuery, PostsQuery, SearchPostsQuery } from '@/generated/graphql'
 
 export type BlogListProps = {
     initialPostData: PostsQuery | null
     initialPage?: number
 }
 
-export type PostData = Pick<PostsQuery, 'posts'>
+export type PostsData = PostsQuery['posts']
 
 export type ArchivePostsLoaderProps = {
     initialArchiveData: GetArchiveBySlugQuery
+    page: number
 }
 
-export type PageInfo = {
+export type CategoryPostListProps = {
+    initialPostData: GetPostByTagSlugQuery
     page: number
-    pageCount: number
-    pageSize: number
-    total: number
 }
+
+export type PostTag = { name: string; slug: string } | null
+export type PostTags = PostTag[]
+
+export type PostThumbnailType =
+    | {
+          url: string
+          alternativeText?: string | null
+          width?: number | null
+          height?: number | null
+      }
+    | undefined
+    | null

@@ -1,25 +1,14 @@
 'use client'
 
-import { GetOneArticleQuery, useGetOneArticleQuery } from '@/generated/graphql'
+import { GetOneArticleQuery } from '@/generated/graphql'
 import { getFormattedDates } from '@/lib/dateUtils'
-import ApolloWrapper from '@/lib/ApolloWrapper'
-import Image from 'next/image'
-import Link from 'next/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTag } from '@fortawesome/free-solid-svg-icons'
-import Markdown from 'markdown-to-jsx'
-import {
-    TwitterShareButton,
-    FacebookShareButton,
-    LinkedinShareButton,
-    BlueskyShareButton,
-    FacebookIcon,
-    LinkedinIcon,
-    BlueskyIcon,
-    XIcon,
-} from 'react-share'
 import { useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
+import SocialShares from '@/components/molecules/SocialShares'
+import MarkDownWrapper from '@/components/atoms/MarkDownWrapper'
+import PostTags from '@/components/molecules/PostTags'
+import PostThumbnail from '@/components/atoms/PostThumbnail'
+import { PostThumbnailType } from '@/types/posts'
 
 // Define the props type for the component
 interface PostDetailProps {
@@ -28,38 +17,19 @@ interface PostDetailProps {
 }
 
 export default function PostDetail({ initialPostData, slug }: PostDetailProps) {
-    const [url, setUrl] = useState<string>('')
-
+    const [url, setUrl] = useState('')
+    const post = initialPostData?.posts?.[0] || null
     // Set the URL for sharing once the component is mounted
     useEffect(() => {
         setUrl(window.location.href)
     }, [])
 
-    // Get the first post from the result (should be the only one since we filtered by slug)
-    let post = initialPostData?.posts?.[0]
-
-    // Use the Apollo Client hook to fetch the post data if not provided
     if (!post) {
-        const { data, loading, error } = useGetOneArticleQuery({
-            variables: { slug },
-            // skip: !!initialPostData, // Skip the query if initialPostData is provided
-            // skip feature does not work.
-        })
-
-        if (error) {
-            console.error('Error fetching post:', error)
-            notFound()
-        }
-
-        post = data?.posts?.[0] // Get the first post from the fetched data
-
-        if (!post) {
-            notFound() // If no post is found, return a 404
-        }
+        // If post is not found, return a 404 page
+        notFound()
     }
 
-    // Strapi base URL
-    const strapiBaseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
+    const thumbnail: PostThumbnailType = post.thumbnail
 
     // Format dates
     const { formattedCreatedAt, formattedUpdatedAt, showUpdatedDate } = getFormattedDates(
@@ -68,79 +38,35 @@ export default function PostDetail({ initialPostData, slug }: PostDetailProps) {
     )
 
     return (
-        <ApolloWrapper>
-            <article className="post-detail">
-                {/* Thumbnail */}
-                {post.thumbnail && post.thumbnail.url && (
-                    <div className="post-thumbnail">
-                        <Image
-                            src={`${strapiBaseUrl}${post.thumbnail.url}`}
-                            alt={post.thumbnail.alternativeText || post.title}
-                            width={Number(post.thumbnail.width)}
-                            height={Number(post.thumbnail.height)}
-                        />
-                    </div>
-                )}
+        <article className="post-detail mt-10 sm:mt-14 md:mt-10 lg:mt-16 mx-auto md:mx-0 w-95pct">
+            <PostThumbnail thumbnail={thumbnail} />
 
-                {/* Title */}
-                <h1 className="post-title">{post.title}</h1>
+            {/* Title */}
+            <h1 className="post-title mt-6 text-2xl lg:text-3xl leading-[1.2] font-semibold text-primary">
+                {post.title}
+            </h1>
 
-                {/* Date and Tags */}
-                <div className="post-meta">
-                    <div className="post-date">
-                        {formattedCreatedAt.toUpperCase()}
-                        {showUpdatedDate ? ` (updated: ${formattedUpdatedAt.toUpperCase()})` : ''}
-                    </div>
-
-                    {/* Tags */}
-                    {post.tags && post.tags.length > 0 && (
-                        <div className="post-tags">
-                            <FontAwesomeIcon icon={faTag} />
-                            <div className="post-tags-list">
-                                {post.tags.slice(0, 3).map((tag) =>
-                                    tag ? (
-                                        <Link key={tag.slug} href={`/tags/${tag.slug}`} className="post-tag">
-                                            {tag.name}
-                                        </Link>
-                                    ) : null
-                                )}
-                            </div>
-                        </div>
-                    )}
+            {/* Date and Tags */}
+            <div className="post-meta flex items-center justify-between flex-wrap text-mid-gray border-b border-gray pb-4 mb-2.5 mt-2 gap-4">
+                <div className="post-date text-sm leading-none capitalize">
+                    {formattedCreatedAt.toUpperCase()}
+                    {showUpdatedDate ? ` (updated: ${formattedUpdatedAt.toUpperCase()})` : ''}
                 </div>
 
-                {/* Content */}
-                {post.content ? (
-                    <div className="post-content">
-                        <Markdown>{post.content}</Markdown>
-                    </div>
-                ) : (
-                    <p>No content exist... </p>
-                )}
+                {/* Tags */}
+                <PostTags post={post} />
+            </div>
 
-                {/* Social Share Buttons */}
-                <div className="social-share">
-                    {/* X (Twitter) */}
-                    <TwitterShareButton url={url} title={post.title}>
-                        <XIcon size={32} round />
-                    </TwitterShareButton>
-
-                    {/* Facebook */}
-                    <FacebookShareButton url={url} hashtag={post.title}>
-                        <FacebookIcon size={32} round />
-                    </FacebookShareButton>
-
-                    {/* LinkedIn */}
-                    <LinkedinShareButton url={url} title={post.title}>
-                        <LinkedinIcon size={32} round />
-                    </LinkedinShareButton>
-
-                    {/* Bluesky */}
-                    <BlueskyShareButton url={url} title={post.title}>
-                        <BlueskyIcon size={32} round />
-                    </BlueskyShareButton>
+            {/* Content */}
+            {post.content ? (
+                <div className="post-content min-h-20">
+                    <MarkDownWrapper>{post.content}</MarkDownWrapper>
                 </div>
-            </article>
-        </ApolloWrapper>
+            ) : (
+                <p>No content exist...</p>
+            )}
+
+            <SocialShares url={url} title={post.title} />
+        </article>
     )
 }

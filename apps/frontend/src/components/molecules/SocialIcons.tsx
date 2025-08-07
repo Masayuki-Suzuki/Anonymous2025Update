@@ -13,20 +13,26 @@ const SocialIcons = () => {
                 <FontAwesomeIcon icon={faHome} />
             </Link>
             <Link
-                href="#"
+                href="https://github.com/masayuki-suzuki/"
                 className="text-dark-gray hover:text-mid-gray transition-colors duration-300 ease-in-out text-[26px]"
+                target="_blank"
+                rel="noopener noreferrer"
             >
                 <FontAwesomeIcon icon={faGithub} />
             </Link>
             <Link
                 href="#"
                 className="text-dark-gray hover:text-mid-gray transition-colors duration-300 ease-in-out text-[26px]"
+                target="_blank"
+                rel="noopener noreferrer"
             >
                 <FontAwesomeIcon icon={faXTwitter} />
             </Link>
             <Link
                 href="#"
                 className="text-dark-gray hover:text-mid-gray transition-colors duration-300 ease-in-out text-[26px]"
+                target="_blank"
+                rel="noopener noreferrer"
             >
                 <FontAwesomeIcon icon={faFacebook} />
             </Link>

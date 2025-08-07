@@ -1,9 +1,10 @@
-import { PostsQuery, SearchPostsQuery } from '@/generated/graphql'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
-import Image from 'next/image'
 import { getFormattedDates } from '@/lib/dateUtils'
+import PostThumbnail from '@/components/atoms/PostThumbnail'
+import { PostThumbnailType } from '@/types/posts'
+import PostCardTags from '@/components/molecules/PostCardTags'
 
 // Union type to handle both query types with proper type safety
 // Create a merged type that makes properties only in PostsQuery optional
@@ -18,24 +19,17 @@ type PostType = {
 
     // Properties only in PostsQuery that need to be optional
     excerpt?: string | null
-    thumbnail?: {
-        url: string
-        alternativeText?: string | null
-        width?: number | null
-        height?: number | null
-    } | null
+    thumbnail?: PostThumbnailType
 }
 
 type BlogCardProps = {
     post: PostType
+    index: number
 }
 
-const BlogCard = ({ post }: BlogCardProps) => {
+const BlogCard = ({ post, index }: BlogCardProps) => {
     // Use optional chaining to handle potentially missing fields
     const { title, thumbnail, excerpt, tags, createdAt, updatedAt, slug } = post
-
-    // Strapi base URL - can be changed when deployed to Google Compute Engine
-    const strapiBaseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
 
     const { formattedCreatedAt, formattedUpdatedAt, showUpdatedDate } = getFormattedDates(createdAt, updatedAt)
 
@@ -46,20 +40,17 @@ const BlogCard = ({ post }: BlogCardProps) => {
     // Handle case where excerpt might be undefined in SearchPostsQuery
     const truncatedExcerpt = excerpt && excerpt.length > 300 ? `${excerpt.substring(0, 300)}...` : excerpt
 
+    let wrapperMargin = ''
+
+    if (index > 1) {
+        wrapperMargin = 'mt-10 md:mt-16'
+    } else if (index === 1) {
+        wrapperMargin = 'mt-10 md:mt-16 lg:mt-0'
+    }
+
     return (
-        <div className="blog-card mt-10 md:mt-16 w-95pct lg:w-45pct">
-            {/* Thumbnail image */}
-            {thumbnail && thumbnail.url && (
-                <div className="blog-card-thumbnail aspect-[16/10] overflow-hidden">
-                    <Image
-                        src={`${strapiBaseUrl}${thumbnail.url}`}
-                        alt={thumbnail.alternativeText || title}
-                        width={thumbnail.width || 0}
-                        height={thumbnail.height || 0}
-                        className="max-w-full mx-auto w-full h-full object-cover object-center"
-                    />
-                </div>
-            )}
+        <div className={`blog-card mx-auto lg:mx-0 w-95pct lg:w-[47.5%] ${wrapperMargin}`}>
+            <PostThumbnail thumbnail={thumbnail} />
 
             {/* Title */}
             <h2 className="blog-card-title text-2xl font-semibold leading-[1.2] mt-6 text-primary">
@@ -92,24 +83,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
             </div>
 
             {/* Tags */}
-            {tags.length > 0 && (
-                <div className="blog-card-tags border-t border-gray flex items-center leading-0 py-2.5">
-                    <FontAwesomeIcon icon={faTag} color="#777" />
-                    <div className="blog-card-tags-list flex items-center flex-wrap text-xs ml-2.5 gap-2.5">
-                        {tags.map((tag) =>
-                            tag ? (
-                                <Link
-                                    href={`/posts/tags/${tag.slug}`}
-                                    key={tag.slug}
-                                    className="text-mid-gray hover:text-secondary transition-colors duration-300"
-                                >
-                                    <span className="blog-card-tag uppercase leading-none">{tag.name}</span>
-                                </Link>
-                            ) : null
-                        )}
-                    </div>
-                </div>
-            )}
+            <PostCardTags tags={tags} />
         </div>
     )
 }

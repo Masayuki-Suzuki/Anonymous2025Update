@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import BlogCard from '../molecules/BlogCard'
 import Pagination from '../molecules/Pagination'
-import { ArchivePostsLoaderProps } from '@/types/posts'
+import { CategoryPostListProps } from '@/types/posts'
 
-export default function ArchivePostsList({ initialArchiveData, page }: ArchivePostsLoaderProps) {
+export default function CategoryPostsList({ initialPostData, page }: CategoryPostListProps) {
     // State to store the current archive data, page, loading state, and component mount state
     const [currentPage, setCurrentPage] = useState(page)
 
@@ -14,11 +14,16 @@ export default function ArchivePostsList({ initialArchiveData, page }: ArchivePo
     const postsPerPage = 2
 
     // Get the current archive from the state
-    const archive =
-        initialArchiveData.archives && initialArchiveData.archives[0] ? initialArchiveData.archives[0] : undefined
+    const tag = initialPostData.tags[0]
+    // Get posts and sort them by createdAt in descending order (newest to oldest)
+    const posts = tag?.posts ? [...tag.posts].sort((a, b) => {
+        if (!a || !b) return 0
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    }) : []
+    const categoryName = tag?.name || ''
 
     // Calculate total posts and pages for client-side pagination
-    const totalPosts = archive && archive.posts ? archive.posts.length : 0
+    const totalPosts = posts ? posts.length : 0
     const totalPages = Math.ceil(totalPosts / postsPerPage)
 
     // Calculate the start and end indices for the current page
@@ -26,21 +31,21 @@ export default function ArchivePostsList({ initialArchiveData, page }: ArchivePo
     const endIndex = Math.min(startIndex + postsPerPage, totalPosts)
 
     // Get the posts for the current page
-    const currentPosts = archive && archive.posts ? archive.posts.slice(startIndex, endIndex) : []
+    const currentPosts = posts ? posts.slice(startIndex, endIndex) : []
 
     // Handle page change
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage)
     }
 
-    if (!archive) {
-        return <div>Archive not found</div>
+    if (!posts) {
+        return <div>This category doesn't have any posts yet.</div>
     }
 
     return (
         <div>
             <h1 className="archive-title font-lato text-primary font-semibold text-2xl w-95pct lg:w-full mx-auto mt-10 lg:mt-16">
-                Archive: <span className="">{archive && archive.title}</span>
+                Category: <span className="capitalize">{categoryName}</span>
             </h1>
             <div className="flex flex-wrap w-95pct lg:gap-[5%] mt-10">
                 {currentPosts.map(
