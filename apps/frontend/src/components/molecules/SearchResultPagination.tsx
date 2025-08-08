@@ -1,28 +1,31 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import PaginationButton from '../atoms/PaginationButton'
-import usePagination from '@/lib/usePagination'
-import { PostsQuery, usePostsLazyQuery } from '@/generated/graphql'
+import { SearchPostsQuery, useSearchPostsLazyQuery } from '@/generated/graphql'
 import ApolloWrapper from '@/lib/ApolloWrapper'
 import PostPagination from '@/components/molecules/PostPagination'
 
-interface BlogPostPaginationProps {
+interface SearchResultPaginationProps {
     currentPage: number
     totalPages: number
-    setPostData: (data: PostsQuery | null) => void
+    searchTerm: string
+    setPostData: (data: SearchPostsQuery | null) => void
 }
 
-export default function BlogPostPagination({ currentPage, totalPages, setPostData }: BlogPostPaginationProps) {
-    const [fetchPosts] = usePostsLazyQuery()
+export default function SearchResultPagination({
+    currentPage,
+    totalPages,
+    setPostData,
+    searchTerm,
+}: SearchResultPaginationProps) {
+    const [fetchPosts] = useSearchPostsLazyQuery()
 
     async function onPageChange(newPage: number) {
         const { data } = await fetchPosts({
             variables: {
+                searchTerm,
                 pagination: {
                     page: newPage,
-                    pageSize: Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 10, // You can adjust this value as needed
+                    pageSize: Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 10,
                 },
+                sort: 'createdAt:DESC', // Adjust the sort order as needed
             },
         })
 

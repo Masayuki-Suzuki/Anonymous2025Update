@@ -17,7 +17,7 @@ function PostCardTags({ tags }: PostCardTagsProps) {
                         tag ? (
                             <a
                                 key={tag.slug}
-                                href={`/tags/${tag.slug}`}
+                                href={`/posts/tag/${tag.slug}`}
                                 className="text-mid-gray hover:text-secondary transition-colors duration-300"
                             >
                                 <span className="blog-card-tag uppercase leading-none">{tag.name}</span>

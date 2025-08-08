@@ -15,6 +15,7 @@ export type ArchivePostsLoaderProps = {
 export type CategoryPostListProps = {
     initialPostData: GetPostByTagSlugQuery
     page: number
+    slug: string
 }
 
 export type PostTag = { name: string; slug: string } | null

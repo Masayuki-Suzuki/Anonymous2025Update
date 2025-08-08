@@ -1,6 +1,5 @@
 import { getClient } from '@/lib/apolloClient'
 import { GetPostByTagSlugDocument, GetPostByTagSlugQuery } from '@/generated/graphql'
-import ArchivePostsList from '@/components/templates/ArchivePostsList'
 import CategoryPostsList from '@/components/templates/CategoryPostsList'
 
 export default async function CategoryPage({
@@ -23,5 +22,5 @@ export default async function CategoryPage({
         variables: { slug },
     })
 
-    return <CategoryPostsList initialPostData={data} page={page} />
+    return <CategoryPostsList initialPostData={data} page={page} slug={slug} />
 }

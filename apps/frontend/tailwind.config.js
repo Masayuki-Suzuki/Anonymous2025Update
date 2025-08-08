@@ -21,6 +21,7 @@ export default {
             colors,
             fontFamily: {
                 lato: ['lato', 'Helvetica Neue', 'Verdana', 'YuGothic', 'Meiryo', 'sans-serif'],
+                ubuntu: ['Ubuntu', 'Helvetica Neue', 'Verdana', 'YuGothic', 'Meiryo', 'sans-serif'],
             },
             fontSize: {
                 xxs: '0.625rem',

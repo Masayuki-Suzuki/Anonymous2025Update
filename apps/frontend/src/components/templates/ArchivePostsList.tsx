@@ -39,8 +39,8 @@ export default function ArchivePostsList({ initialArchiveData, page }: ArchivePo
 
     return (
         <div>
-            <h1 className="archive-title font-lato text-primary font-semibold text-2xl w-95pct lg:w-full mx-auto mt-10 lg:mt-16">
-                Archive: <span className="">{archive && archive.title}</span>
+            <h1 className="archive-title font-lato text-primary font-semibold text-2xl w-95pct lg:w-full mt-10 lg:mt-16">
+                Archive: <span className="capitalize font-normal">{archive && archive.title}</span>
             </h1>
             <div className="flex flex-wrap w-95pct lg:gap-[5%] mt-10">
                 {currentPosts.map(

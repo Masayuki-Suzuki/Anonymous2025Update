@@ -1,0 +1,5 @@
+query GetOneTagName($slug: String!) {
+    tags(filters: { slug: { eq: $slug } }) {
+        name
+    }
+}

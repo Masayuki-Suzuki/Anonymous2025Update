@@ -10,10 +10,8 @@ type CodeBlockProps = {
 function CodeBlock({ className, children }: CodeBlockProps) {
     const language = className?.replace('lang-', '') || 'plaintext'
 
-    console.log(language)
-
     return (
-        <SyntaxHighlighter language={language} style={dracula} PreTag="div">
+        <SyntaxHighlighter language={language} style={dracula} PreTag="div" className="text-base">
             {children}
         </SyntaxHighlighter>
     )

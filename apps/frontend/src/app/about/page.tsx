@@ -1,11 +1,11 @@
 import { getClient } from '@/lib/apolloClient'
 import { AboutDocument, AboutQuery } from '@/generated/graphql'
-import AboutLoader from '@/components/loaders/AboutLoader'
+import About from '@/components/templates/About'
 
 export default async function AboutPage() {
     const { data } = await getClient().query<AboutQuery>({
         query: AboutDocument,
     })
 
-    return <AboutLoader initialAboutData={data} />
+    return <About initialAboutData={data} />
 }

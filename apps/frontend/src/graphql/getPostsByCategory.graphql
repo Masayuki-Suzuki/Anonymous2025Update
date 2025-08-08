@@ -1,25 +1,20 @@
-query GetPostByTagSlug($slug: String!) {
-    tags(filters: { slug: { eq: $slug } }) {
+query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg) {
+    posts(filters: $filters, sort: $sort, pagination: $pagination) {
         documentId
-        name
+        title
         slug
-        posts(filters: { publishedAt: { ne: null } }) {
-            documentId
-            title
-            slug
-            createdAt
-            updatedAt
-            thumbnail {
-                url
-                alternativeText
-                width
-                height
-            }
-            tags {
-                name
-                slug
-            }
-            excerpt
+        createdAt
+        updatedAt
+        thumbnail {
+            url
+            alternativeText
+            width
+            height
         }
+        tags {
+            name
+            slug
+        }
+        excerpt
     }
 }

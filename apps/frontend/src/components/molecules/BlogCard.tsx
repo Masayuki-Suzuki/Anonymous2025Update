@@ -49,7 +49,7 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
     }
 
     return (
-        <div className={`blog-card mx-auto lg:mx-0 w-95pct lg:w-[47.5%] ${wrapperMargin}`}>
+        <div className={`blog-card mx-auto lg:mx-0 w-full lg:w-[47.5%] ${wrapperMargin}`}>
             <PostThumbnail thumbnail={thumbnail} />
 
             {/* Title */}

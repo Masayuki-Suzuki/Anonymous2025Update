@@ -1,6 +1,7 @@
 import React from 'react'
 import Markdown, { MarkdownToJSX } from 'markdown-to-jsx'
 import CodeBlock from '@/components/molecules/CodeBlock'
+import MarkdownLink from '@/components/atoms/MarkdownLink'
 
 type MarkdownProps = {
     children: string
@@ -14,39 +15,51 @@ const DEFAULT_OPTIONS: MarkdownToJSX.Options = {
         // You can customize the rendering of specific HTML elements here
         h1: {
             component: ({ children }) => (
-                <h1 className="text-3xl lg:text-4xl font-bold mt-10 mb-1 text-primary leading-ex-tight tracking-wide">
+                <h1 className="text-2xl lg:text-3xl font-normal mt-10 mb-1 text-primary leading-ex-tight tracking-wide uppercase border-b border-gray pb-2">
                     {children}
                 </h1>
             ),
         },
         h2: {
             component: ({ children }) => (
-                <h2 className="text-2xl lg:text-3xl font-bold text-primary mt-10 mb-2 tracking-wide">{children}</h2>
+                <h2 className="text-[22px] lg:text-2xl font-normal text-primary mt-10 mb-2 tracking-wide capitalize border-b border-gray pb-2">
+                    {children}
+                </h2>
             ),
         },
         h3: {
             component: ({ children }) => (
-                <h3 className="text-xl lg:text-2xl font-bold text-primary mt-8 mb-2 tracking-wide">{children}</h3>
+                <h3 className="text-xl lg:text-[22px] font-normal text-primary mt-8 mb-2 tracking-wide capitalize border-b border-gray pb-2">
+                    {children}
+                </h3>
             ),
         },
         h4: {
             component: ({ children }) => (
-                <h4 className="text-xl lg:text-2xl font-normal text-primary mt-6 mb-2 tracking-wide">{children}</h4>
+                <h4 className="text-xl lg:text-[22px] font-semibold text-primary mt-8 mb-2 tracking-wide capitalize">
+                    {children}
+                </h4>
             ),
         },
         h5: {
             component: ({ children }) => (
-                <h5 className="text-lg lg:text-xl font-bold text-primary mt-6 mb-2 tracking-wider">{children}</h5>
+                <h5 className="text-lg lg:text-xl font-bold text-primary mt-6 mb-2 tracking-wider capitalize">
+                    {children}
+                </h5>
             ),
         },
         h6: {
             component: ({ children }) => (
-                <h6 className="text-lg lg:text-xl font-nomal text-primary mt-6 mb-2tracking-wider">{children}</h6>
+                <h6 className="text-lg lg:text-xl font-nomal text-primary mt-6 mb-2tracking-wider uppercase">
+                    {children}
+                </h6>
             ),
         },
         p: {
             component: ({ children }) => (
-                <p className="text-base lg:text-lg text-primary leading-normal tracking-wide mb-5">{children}</p>
+                <p className="text-base lg:text-lg text-primary font-light leading-normal tracking-wider mb-5">
+                    {children}
+                </p>
             ),
         },
         ul: {
@@ -56,14 +69,12 @@ const DEFAULT_OPTIONS: MarkdownToJSX.Options = {
             component: ({ children }) => <ol className="list-decimal ml-5 my-2">{children}</ol>,
         },
         li: {
-            component: ({ children }) => <li className="my-1">{children}</li>,
+            component: ({ children }) => (
+                <li className="my-1 font-light text-primary text-base tracking-wide">{children}</li>
+            ),
         },
         a: {
-            component: ({ children }) => (
-                <a className="text-secondary font-medium hover:text-secondary-hover transition-colors duration-300 ease-in-out hover:no-underline cursor-pointer">
-                    {children}
-                </a>
-            ),
+            component: ({ href, children }) => <MarkdownLink href={href}>{children}</MarkdownLink>,
         },
         pre: {
             component: ({ children }) => (

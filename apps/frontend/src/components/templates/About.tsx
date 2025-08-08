@@ -1,83 +1,24 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import ApolloWrapper from '@/lib/ApolloWrapper'
-import { AboutQuery, useAboutQuery } from '@/generated/graphql'
-import Markdown from 'markdown-to-jsx'
+import { AboutQuery } from '@/generated/graphql'
+import { notFound } from 'next/navigation'
+import MarkDownWrapper from '@/components/atoms/MarkDownWrapper'
 
 interface AboutProps {
     initialAboutData: AboutQuery
 }
 
-// Markdown components configuration
-const markdownOptions = {
-    overrides: {
-        // You can customize the rendering of specific HTML elements here
-        h1: {
-            component: (props: any) => <h1 className="text-2xl font-bold my-4" {...props} />,
-        },
-        h2: {
-            component: (props: any) => <h2 className="text-xl font-bold my-3" {...props} />,
-        },
-        h3: {
-            component: (props: any) => <h3 className="text-lg font-bold my-2" {...props} />,
-        },
-        p: {
-            component: (props: any) => <p className="my-2" {...props} />,
-        },
-        ul: {
-            component: (props: any) => <ul className="list-disc ml-5 my-2" {...props} />,
-        },
-        ol: {
-            component: (props: any) => <ol className="list-decimal ml-5 my-2" {...props} />,
-        },
-        li: {
-            component: (props: any) => <li className="my-1" {...props} />,
-        },
-        a: {
-            component: (props: any) => <a className="text-blue-500 hover:underline" {...props} />,
-        },
-    },
-}
-
 export default function About({ initialAboutData }: AboutProps) {
-    const [isClient, setIsClient] = useState(false)
-    const initialContent = initialAboutData?.about?.content || null
+    const content = initialAboutData?.about?.content || null
 
-    // Only set isClient to true on the client side
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
+    if (!content) {
+        notFound()
+    }
 
     return (
-        <div>
-            <h2>About</h2>
-            {initialContent ? (
-                <Markdown options={markdownOptions}>{initialContent}</Markdown>
-            ) : (
-                <div>Loading content...</div>
-            )}
-
-            {/* Only render ApolloWrapper on the client side to avoid SSR issues */}
-            {isClient && (
-                <ApolloWrapper>
-                    <ClientSideUpdater initialContent={initialContent} />
-                </ApolloWrapper>
-            )}
-        </div>
+        <article className="post-detail mt-10 sm:mt-14 md:mt-10 lg:mt-16 mx-auto md:mx-0 w-full md:w-95pct">
+            <h1 className="text-2xl lg:text-3xl font-normal mt-10 mb-1 text-primary leading-ex-tight tracking-wide uppercase border-b border-gray pb-2 mb-6">
+                About
+            </h1>
+            <MarkDownWrapper>{content}</MarkDownWrapper>
+        </article>
     )
-}
-
-// This component only runs on the client side to check for updated content
-function ClientSideUpdater({ initialContent }: { initialContent: string | null }) {
-    const { data } = useAboutQuery({
-        // Skip the query if we already have content from SSR
-        skip: !!initialContent,
-    })
-
-    // If we have new data from the client side that's different from the initial data,
-    // we could update the UI here, but for now we'll just return null
-    // This prevents unnecessary API calls while still supporting client-side updates if needed
-
-    return null
 }

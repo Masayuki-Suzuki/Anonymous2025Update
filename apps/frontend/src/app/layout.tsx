@@ -1,10 +1,13 @@
 import './globals.css'
-import { Lato } from 'next/font/google'
+import { Lato, Ubuntu } from 'next/font/google'
 import Header from '@/components/organisms/Header'
 import SideNavigation from '@/components/organisms/SideNavigation'
 import Footer from '@/components/organisms/Footer'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import Script from 'next/script'
+import ConsentBanner from '@/components/molecules/ConsentBanner'
+import { initConsent } from '@/lib/_ga'
 
 // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 config.autoAddCss = false
@@ -32,6 +35,20 @@ export default function RootLayout({
                     </aside>
                 </div>
                 <Footer />
+                <Script id="ga-consent-init" strategy="afterInteractive">
+                    {`
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function(){ window.dataLayer.push(arguments); };
+            window.gtag('consent', 'default', {
+              ad_storage: 'denied',
+              analytics_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              wait_for_update: 500
+            });
+          `}
+                </Script>
+                <ConsentBanner />
             </body>
         </html>
     )

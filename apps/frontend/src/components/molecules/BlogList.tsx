@@ -31,7 +31,7 @@ function BlogList({ initialPostData }: BlogListProps) {
 
     return (
         <>
-            <div className="flex flex-wrap w-95pct lg:gap-[5%]">
+            <div className="flex flex-wrap w-full md:w-95pct lg:gap-[5%] mt-10 lg:mt-16">
                 {postData &&
                     postData.posts.map(
                         (post, index) => post && <BlogCard key={post.documentId} post={post} index={index} />

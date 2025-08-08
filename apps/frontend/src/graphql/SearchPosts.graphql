@@ -1,16 +1,24 @@
-query SearchPosts($searchTerm: String!) {
-  posts(filters: { or: [
-    { title: { containsi: $searchTerm } },
-    { content: { containsi: $searchTerm } }
-  ]}) {
-    documentId
-    title
-    tags {
-      name
-      slug
+query SearchPosts($searchTerm: String!, $pagination: PaginationArg!, $sort: [String]) {
+    posts(filters: { or: [
+        { title: { containsi: $searchTerm } },
+        { content: { containsi: $searchTerm } }
+    ]},
+        pagination: $pagination, sort: $sort) {
+        documentId
+        title
+        tags {
+            name
+            slug
+        }
+        createdAt
+        updatedAt
+        slug
     }
-    createdAt
-    updatedAt
-    slug
-  }
+    posts_connection(pagination: $pagination) {
+        pageInfo {
+            page
+            pageCount
+            pageSize
+        }
+    }
 }
