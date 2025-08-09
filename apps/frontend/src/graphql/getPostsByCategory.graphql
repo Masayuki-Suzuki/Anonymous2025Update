@@ -17,4 +17,12 @@ query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination:
         }
         excerpt
     }
+    posts_connection(pagination: $pagination) {
+        pageInfo {
+            page
+            pageSize
+            pageCount
+            total
+        }
+    }
 }

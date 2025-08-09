@@ -1388,6 +1388,13 @@ export type GetOneArticleByDocumentIdQueryVariables = Exact<{
 
 export type GetOneArticleByDocumentIdQuery = { __typename?: 'Query', post?: { __typename?: 'Post', title: string, content?: string | null, thumbnail?: { __typename?: 'UploadFile', documentId: string, height?: number | null, width?: number | null, url: string, name: string, alternativeText?: string | null } | null, tags: Array<{ __typename?: 'Tag', name: string, documentId: string, slug: string } | null> } | null };
 
+export type GetOneTagNameQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type GetOneTagNameQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', name: string } | null> };
+
 export type GetPostByTagSlugQueryVariables = Exact<{
   filters?: InputMaybe<PostFiltersInput>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
@@ -1395,7 +1402,7 @@ export type GetPostByTagSlugQueryVariables = Exact<{
 }>;
 
 
-export type GetPostByTagSlugQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
+export type GetPostByTagSlugQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageSize: number, pageCount: number, total: number } } | null };
 
 export type GetPrivacyPolicyContentQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1915,6 +1922,46 @@ export type GetOneArticleByDocumentIdQueryHookResult = ReturnType<typeof useGetO
 export type GetOneArticleByDocumentIdLazyQueryHookResult = ReturnType<typeof useGetOneArticleByDocumentIdLazyQuery>;
 export type GetOneArticleByDocumentIdSuspenseQueryHookResult = ReturnType<typeof useGetOneArticleByDocumentIdSuspenseQuery>;
 export type GetOneArticleByDocumentIdQueryResult = Apollo.QueryResult<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables>;
+export const GetOneTagNameDocument = gql`
+    query GetOneTagName($slug: String!) {
+  tags(filters: {slug: {eq: $slug}}) {
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetOneTagNameQuery__
+ *
+ * To run a query within a React component, call `useGetOneTagNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOneTagNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOneTagNameQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetOneTagNameQuery(baseOptions: Apollo.QueryHookOptions<GetOneTagNameQuery, GetOneTagNameQueryVariables> & ({ variables: GetOneTagNameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOneTagNameQuery, GetOneTagNameQueryVariables>(GetOneTagNameDocument, options);
+      }
+export function useGetOneTagNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOneTagNameQuery, GetOneTagNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOneTagNameQuery, GetOneTagNameQueryVariables>(GetOneTagNameDocument, options);
+        }
+export function useGetOneTagNameSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetOneTagNameQuery, GetOneTagNameQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetOneTagNameQuery, GetOneTagNameQueryVariables>(GetOneTagNameDocument, options);
+        }
+export type GetOneTagNameQueryHookResult = ReturnType<typeof useGetOneTagNameQuery>;
+export type GetOneTagNameLazyQueryHookResult = ReturnType<typeof useGetOneTagNameLazyQuery>;
+export type GetOneTagNameSuspenseQueryHookResult = ReturnType<typeof useGetOneTagNameSuspenseQuery>;
+export type GetOneTagNameQueryResult = Apollo.QueryResult<GetOneTagNameQuery, GetOneTagNameQueryVariables>;
 export const GetPostByTagSlugDocument = gql`
     query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg) {
   posts(filters: $filters, sort: $sort, pagination: $pagination) {
@@ -1934,6 +1981,14 @@ export const GetPostByTagSlugDocument = gql`
       slug
     }
     excerpt
+  }
+  posts_connection(pagination: $pagination) {
+    pageInfo {
+      page
+      pageSize
+      pageCount
+      total
+    }
   }
 }
     `;
