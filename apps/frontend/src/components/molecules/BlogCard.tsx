@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTag } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { getFormattedDates } from '@/lib/dateUtils'
 import PostThumbnail from '@/components/atoms/PostThumbnail'

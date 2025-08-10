@@ -1,35 +1,34 @@
-'use client'
-
-import ApolloWrapper from '@/lib/ApolloWrapper'
-import { SearchPostsQuery } from '@/generated/graphql'
 import SearchResultCard from '../molecules/SearchResultCard'
-import { useEffect, useState } from 'react'
-import SearchResultPagination from '@/components/molecules/SearchResultPagination'
+import Pagination from '@/components/molecules/Pagination'
+import { PostListPostsConnection } from '@/types/posts'
 
-type SearchResultsListProps = {
-    initialPostData: SearchPostsQuery
+type SearchResultsListProps<T> = {
+    initialPostData: T & PostListPostsConnection
     searchTerm: string
+    page: number
+    baseUrl: string
 }
 
-type PageInfo = NonNullable<SearchPostsQuery['posts_connection']>['pageInfo']
+export default function SearchResultsList<T>({
+    initialPostData,
+    searchTerm,
+    page,
+    baseUrl,
+}: SearchResultsListProps<T>) {
+    const { posts_connection } = initialPostData
 
-export default function SearchResultsList({ initialPostData, searchTerm }: SearchResultsListProps) {
-    const [postData, setPostData] = useState<SearchPostsQuery | null>(initialPostData)
-    const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
-    const [totalPages, setTotalPages] = useState(1)
-    const [currentPage, setCurrentPage] = useState(1)
+    // Number of posts to display per page - configurable
+    // You can change this value to adjust the number of posts per page
+    const postsPerPage = Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 10
 
-    useEffect(() => {
-        if (initialPostData) {
-            if ('posts_connection' in initialPostData && initialPostData.posts_connection) {
-                setPageInfo(initialPostData.posts_connection.pageInfo)
-                setCurrentPage(initialPostData.posts_connection.pageInfo.page)
-                setTotalPages(initialPostData.posts_connection.pageInfo.pageCount)
-            }
-        }
-    }, [initialPostData])
+    // Get the current archive from the state
+    const posts = initialPostData && 'posts' in initialPostData ? initialPostData.posts : []
 
-    if (!postData) {
+    // Calculate total posts and pages for client-side pagination
+    const totalPosts = posts_connection?.pageInfo?.total || 0
+    const totalPages = posts_connection?.pageInfo.pageCount || Math.ceil(totalPosts / postsPerPage)
+
+    if (!posts || !Array.isArray(posts)) {
         return (
             <div className="w-full md:w-95pct lg:gap-[5%] mt-10 lg:mt-16">
                 <p className="text-center text-lg text-primary font-normal">
@@ -45,18 +44,9 @@ export default function SearchResultsList({ initialPostData, searchTerm }: Searc
                 Search: <span className="capitalize font-normal">{searchTerm}</span>
             </h1>
             <div className="w-95pct lg:gap-[5%] mt-10">
-                {postData.posts.map((post) => post && <SearchResultCard key={post.documentId} post={post} />)}
+                {posts.map((post) => post && <SearchResultCard key={post.documentId} post={post} />)}
             </div>
-            {pageInfo && (
-                <ApolloWrapper>
-                    <SearchResultPagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        setPostData={setPostData}
-                        searchTerm={searchTerm}
-                    />
-                </ApolloWrapper>
-            )}
+            <Pagination currentPage={page} totalPages={totalPages} baseUrl={baseUrl} />
         </>
     )
 }

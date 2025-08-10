@@ -1,25 +1,32 @@
-query GetArchiveBySlug($slug: String!) {
-    archives(filters: { slug: { eq: $slug } }) {
+query GetArchiveBySlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg, $status: PublicationStatus) {
+    posts(filters: $filters, sort: $sort, pagination: $pagination, status: $status,) {
         documentId
         title
         slug
-        posts(filters: { publishedAt: { ne: null } }) {
-            documentId
-            title
+        createdAt
+        updatedAt
+        thumbnail {
+            url
+            alternativeText
+            width
+            height
+        }
+        tags {
+            name
             slug
-            createdAt
-            updatedAt
-            thumbnail {
-                url
-                alternativeText
-                width
-                height
-            }
-            tags {
-                name
-                slug
-            }
-            excerpt
+        }
+        archive {
+            slug
+            title
+        }
+        excerpt
+    }
+    posts_connection(pagination: $pagination, filters: $filters, status: $status) {
+        pageInfo {
+            page
+            pageSize
+            pageCount
+            total
         }
     }
 }

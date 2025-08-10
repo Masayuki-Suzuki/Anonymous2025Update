@@ -1345,7 +1345,7 @@ export type SearchPostsQueryVariables = Exact<{
 }>;
 
 
-export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageCount: number, pageSize: number } } | null };
+export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageCount: number, pageSize: number, total: number } } | null };
 
 export type GetAboutPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1363,11 +1363,14 @@ export type GetAboutWidgetContentQueryVariables = Exact<{ [key: string]: never; 
 export type GetAboutWidgetContentQuery = { __typename?: 'Query', aboutWidget?: { __typename?: 'AboutWidget', content?: string | null, profile_image?: { __typename?: 'UploadFile', alternativeText?: string | null, url: string, name: string, width?: number | null, height?: number | null } | null } | null };
 
 export type GetArchiveBySlugQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
+  filters?: InputMaybe<PostFiltersInput>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  pagination?: InputMaybe<PaginationArg>;
+  status?: InputMaybe<PublicationStatus>;
 }>;
 
 
-export type GetArchiveBySlugQuery = { __typename?: 'Query', archives: Array<{ __typename?: 'Archive', documentId: string, title: string, slug: string, posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> } | null> };
+export type GetArchiveBySlugQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null>, archive?: { __typename?: 'Archive', slug: string, title: string } | null } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageSize: number, pageCount: number, total: number } } | null };
 
 export type ArchivesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1399,6 +1402,7 @@ export type GetPostByTagSlugQueryVariables = Exact<{
   filters?: InputMaybe<PostFiltersInput>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   pagination?: InputMaybe<PaginationArg>;
+  status?: InputMaybe<PublicationStatus>;
 }>;
 
 
@@ -1539,11 +1543,15 @@ export const SearchPostsDocument = gql`
     updatedAt
     slug
   }
-  posts_connection(pagination: $pagination) {
+  posts_connection(
+    pagination: $pagination
+    filters: {or: [{title: {containsi: $searchTerm}}, {content: {containsi: $searchTerm}}]}
+  ) {
     pageInfo {
       page
       pageCount
       pageSize
+      total
     }
   }
 }
@@ -1708,28 +1716,35 @@ export type GetAboutWidgetContentLazyQueryHookResult = ReturnType<typeof useGetA
 export type GetAboutWidgetContentSuspenseQueryHookResult = ReturnType<typeof useGetAboutWidgetContentSuspenseQuery>;
 export type GetAboutWidgetContentQueryResult = Apollo.QueryResult<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>;
 export const GetArchiveBySlugDocument = gql`
-    query GetArchiveBySlug($slug: String!) {
-  archives(filters: {slug: {eq: $slug}}) {
+    query GetArchiveBySlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg, $status: PublicationStatus) {
+  posts(filters: $filters, sort: $sort, pagination: $pagination, status: $status) {
     documentId
     title
     slug
-    posts(filters: {publishedAt: {ne: null}}) {
-      documentId
-      title
+    createdAt
+    updatedAt
+    thumbnail {
+      url
+      alternativeText
+      width
+      height
+    }
+    tags {
+      name
       slug
-      createdAt
-      updatedAt
-      thumbnail {
-        url
-        alternativeText
-        width
-        height
-      }
-      tags {
-        name
-        slug
-      }
-      excerpt
+    }
+    archive {
+      slug
+      title
+    }
+    excerpt
+  }
+  posts_connection(pagination: $pagination, filters: $filters, status: $status) {
+    pageInfo {
+      page
+      pageSize
+      pageCount
+      total
     }
   }
 }
@@ -1747,11 +1762,14 @@ export const GetArchiveBySlugDocument = gql`
  * @example
  * const { data, loading, error } = useGetArchiveBySlugQuery({
  *   variables: {
- *      slug: // value for 'slug'
+ *      filters: // value for 'filters'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *      status: // value for 'status'
  *   },
  * });
  */
-export function useGetArchiveBySlugQuery(baseOptions: Apollo.QueryHookOptions<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables> & ({ variables: GetArchiveBySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetArchiveBySlugQuery(baseOptions?: Apollo.QueryHookOptions<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>(GetArchiveBySlugDocument, options);
       }
@@ -1963,8 +1981,8 @@ export type GetOneTagNameLazyQueryHookResult = ReturnType<typeof useGetOneTagNam
 export type GetOneTagNameSuspenseQueryHookResult = ReturnType<typeof useGetOneTagNameSuspenseQuery>;
 export type GetOneTagNameQueryResult = Apollo.QueryResult<GetOneTagNameQuery, GetOneTagNameQueryVariables>;
 export const GetPostByTagSlugDocument = gql`
-    query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg) {
-  posts(filters: $filters, sort: $sort, pagination: $pagination) {
+    query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg, $status: PublicationStatus) {
+  posts(filters: $filters, sort: $sort, pagination: $pagination, status: $status) {
     documentId
     title
     slug
@@ -1982,7 +2000,7 @@ export const GetPostByTagSlugDocument = gql`
     }
     excerpt
   }
-  posts_connection(pagination: $pagination) {
+  posts_connection(pagination: $pagination, filters: $filters, status: $status) {
     pageInfo {
       page
       pageSize
@@ -2008,6 +2026,7 @@ export const GetPostByTagSlugDocument = gql`
  *      filters: // value for 'filters'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
+ *      status: // value for 'status'
  *   },
  * });
  */

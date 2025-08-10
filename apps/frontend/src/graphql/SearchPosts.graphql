@@ -14,11 +14,15 @@ query SearchPosts($searchTerm: String!, $pagination: PaginationArg!, $sort: [Str
         updatedAt
         slug
     }
-    posts_connection(pagination: $pagination) {
+    posts_connection(pagination: $pagination, filters: { or: [
+        { title: { containsi: $searchTerm } },
+        { content: { containsi: $searchTerm } }
+    ]}) {
         pageInfo {
             page
             pageCount
             pageSize
+            total
         }
     }
 }

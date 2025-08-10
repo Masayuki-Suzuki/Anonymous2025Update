@@ -5,7 +5,7 @@ import {
     GetPostByTagSlugDocument,
     GetPostByTagSlugQuery,
 } from '@/generated/graphql'
-import CategoryPostsList from '@/components/templates/CategoryPostsList'
+import PostsList from '@/components/templates/PostsList'
 
 export default async function CategoryPage({
     params,
@@ -17,22 +17,21 @@ export default async function CategoryPage({
     const searchParamsData = await searchParams
     const paramsData = await params
 
-    const page = searchParamsData.p ? parseInt(searchParamsData.p, 10) : 1
+    const page = searchParamsData.p ? Number(searchParamsData.p) : 1
     const slug = paramsData.slug
     const pagination = {
         page,
         pageSize: Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 2,
     }
     const filters = {
-        publishedAt: {
-            ne: null,
-        },
         tags: {
             slug: {
-                in: slug,
+                in: [slug],
             },
         },
     }
+
+    const baseUrl = `/posts/tag/${slug}?p=`
 
     // Use getClient to fetch the initial data
     // Note: We're not changing this function as per requirements
@@ -42,6 +41,7 @@ export default async function CategoryPage({
             filters,
             pagination,
             sort: ['createdAt:desc'],
+            status: 'PUBLISHED',
         },
     })
 
@@ -54,5 +54,5 @@ export default async function CategoryPage({
 
     const tagName = (tags && tags[0] && tags[0].name) || 'Uncategorized'
 
-    return <CategoryPostsList initialPostData={data} page={page} tagName={tagName} slug={slug} />
+    return <PostsList<GetPostByTagSlugQuery> initialPostData={data} page={page} title={tagName} baseUrl={baseUrl} />
 }

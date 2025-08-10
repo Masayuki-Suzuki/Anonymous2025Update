@@ -1,22 +1,24 @@
-import { GetArchiveBySlugQuery, GetPostByTagSlugQuery, PostsQuery, SearchPostsQuery } from '@/generated/graphql'
-
-export type BlogListProps = {
-    initialPostData: PostsQuery | null
-    initialPage?: number
+export type PostListPostsConnection = {
+    posts_connection?:
+        | {
+              __typename?: string | undefined
+              pageInfo: {
+                  __typename?: string | undefined
+                  page?: number
+                  pageSize?: number
+                  pageCount?: number
+                  total?: number
+              }
+          }
+        | null
+        | undefined
 }
 
-export type PostsData = PostsQuery['posts']
-
-export type ArchivePostsLoaderProps = {
-    initialArchiveData: GetArchiveBySlugQuery
+export type PostListProps<T> = {
+    initialPostData: T & PostListPostsConnection
     page: number
-}
-
-export type CategoryPostListProps = {
-    initialPostData: GetPostByTagSlugQuery
-    page: number
-    tagName: string
-    slug: string
+    title: string
+    baseUrl: string
 }
 
 export type PostTag = { name: string; slug: string } | null

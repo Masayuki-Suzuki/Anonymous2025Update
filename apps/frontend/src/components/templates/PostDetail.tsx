@@ -1,8 +1,5 @@
-'use client'
-
 import { GetOneArticleQuery } from '@/generated/graphql'
 import { getFormattedDates } from '@/lib/dateUtils'
-import { useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
 import SocialShares from '@/components/molecules/SocialShares'
 import MarkDownWrapper from '@/components/atoms/MarkDownWrapper'
@@ -13,16 +10,11 @@ import { PostThumbnailType } from '@/types/posts'
 // Define the props type for the component
 interface PostDetailProps {
     initialPostData?: GetOneArticleQuery
-    slug: string
+    url: string
 }
 
-export default function PostDetail({ initialPostData, slug }: PostDetailProps) {
-    const [url, setUrl] = useState('')
+export default function PostDetail({ initialPostData, url }: PostDetailProps) {
     const post = initialPostData?.posts?.[0] || null
-    // Set the URL for sharing once the component is mounted
-    useEffect(() => {
-        setUrl(window.location.href)
-    }, [])
 
     if (!post) {
         // If post is not found, return a 404 page

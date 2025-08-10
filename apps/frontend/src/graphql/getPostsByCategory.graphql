@@ -1,5 +1,5 @@
-query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg) {
-    posts(filters: $filters, sort: $sort, pagination: $pagination) {
+query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg, $status: PublicationStatus) {
+    posts(filters: $filters, sort: $sort, pagination: $pagination, status: $status) {
         documentId
         title
         slug
@@ -17,7 +17,7 @@ query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination:
         }
         excerpt
     }
-    posts_connection(pagination: $pagination) {
+    posts_connection(pagination: $pagination, filters: $filters, status: $status) {
         pageInfo {
             page
             pageSize

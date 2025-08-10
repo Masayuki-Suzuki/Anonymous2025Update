@@ -107,6 +107,9 @@ const DEFAULT_OPTIONS: MarkdownToJSX.Options = {
                 </span>
             ),
         },
+        hr: {
+            component: () => <hr className="border-t border-gray my-4" />,
+        },
     },
 }
 

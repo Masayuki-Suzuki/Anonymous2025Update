@@ -1,6 +1,6 @@
 import { getClient } from '@/lib/apolloClient'
 import { GetArchiveBySlugDocument, GetArchiveBySlugQuery } from '@/generated/graphql'
-import ArchivePostsList from '@/components/templates/ArchivePostsList'
+import PostsList from '@/components/templates/PostsList'
 
 export default async function ArchivePage({
     params,
@@ -12,15 +12,33 @@ export default async function ArchivePage({
     const searchParamsData = await searchParams
     const paramsData = await params
 
-    const page = searchParamsData.p ? parseInt(searchParamsData.p, 10) : 1
+    const page = searchParamsData.p ? Number(searchParamsData.p) : 1
     const slug = paramsData.slug
+    const pagination = {
+        page,
+        pageSize: Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 2, // You can adjust this value as needed
+    }
+    const filters = {
+        archive: {
+            slug: {
+                in: [slug],
+            },
+        },
+    }
 
-    // Use getClient to fetch the initial data
-    // Note: We're not changing this function as per requirements
+    const baseUrl = `/archives/${slug}?p=`
+
     const { data } = await getClient().query<GetArchiveBySlugQuery>({
         query: GetArchiveBySlugDocument,
-        variables: { slug },
+        variables: {
+            filters,
+            pagination,
+            sort: ['createdAt:desc'],
+            status: 'PUBLISHED',
+        },
     })
 
-    return <ArchivePostsList initialArchiveData={data} page={page} />
+    const archiveName = slug.replace('-', ' ')
+
+    return <PostsList<GetArchiveBySlugQuery> initialPostData={data} page={page} title={archiveName} baseUrl={baseUrl} />
 }
