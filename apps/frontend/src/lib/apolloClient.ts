@@ -1,7 +1,7 @@
 import { HttpLink } from '@apollo/client'
 import { registerApolloClient, ApolloClient, InMemoryCache, SSRMultipartLink } from '@apollo/client-integration-nextjs'
 
-export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
+export const { getClient, query } = registerApolloClient(() => {
     const httpLink = new HttpLink({
         uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL || 'http://localhost:1337/graphql',
         fetchOptions: {
@@ -10,7 +10,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
         headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN || ''}`,
         },
-    });
+    })
 
     return new ApolloClient({
         cache: new InMemoryCache({
@@ -18,7 +18,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
                 Archive: {
                     fields: {
                         posts: {
-                            merge(existing = [], incoming, { readField }) {
+                            merge(existing = [], incoming) {
                                 if (incoming && incoming.length > 0) {
                                     return incoming
                                 }
@@ -30,14 +30,12 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
                 },
             },
         }),
-        link: typeof window === 'undefined'
-            ? new SSRMultipartLink({
-                stripDefer: true,
-                cutoffDelay: 5000,
-              }).split(
-                () => true,
-                httpLink,
-              )
-            : httpLink,
+        link:
+            typeof window === 'undefined'
+                ? new SSRMultipartLink({
+                      stripDefer: true,
+                      cutoffDelay: 5000,
+                  }).split(() => true, httpLink)
+                : httpLink,
     })
 })

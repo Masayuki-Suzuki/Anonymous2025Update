@@ -1,5 +1,5 @@
 import './globals.css'
-import { Lato, Ubuntu } from 'next/font/google'
+import { Lato } from 'next/font/google'
 import Header from '@/components/organisms/Header'
 import SideNavigation from '@/components/organisms/SideNavigation'
 import Footer from '@/components/organisms/Footer'
@@ -7,7 +7,6 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import Script from 'next/script'
 import ConsentBanner from '@/components/molecules/ConsentBanner'
-import { initConsent } from '@/lib/_ga'
 
 // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 config.autoAddCss = false

@@ -13,6 +13,7 @@ query SearchPosts($searchTerm: String!, $pagination: PaginationArg!, $sort: [Str
         createdAt
         updatedAt
         slug
+        excerpt
     }
     posts_connection(pagination: $pagination, filters: { or: [
         { title: { containsi: $searchTerm } },

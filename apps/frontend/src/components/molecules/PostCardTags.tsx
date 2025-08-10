@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type PostCardTagsProps = {
     tags: PostTags
+    border?: boolean
 }
 
-function PostCardTags({ tags }: PostCardTagsProps) {
+function PostCardTags({ tags, border = true }: PostCardTagsProps) {
     return (
-        <div className="blog-card-tags border-t border-gray flex items-center leading-0 py-2.5">
+        <div className={`blog-card-tags flex items-center leading-0 py-2.5 ${border && 'border-t border-gray '}`}>
             <FontAwesomeIcon icon={faTag} color="#777" />
             <div className="blog-card-tags-list flex items-center flex-wrap text-xs ml-2.5 gap-2.5">
                 {tags &&

@@ -28,13 +28,20 @@ export default function SearchResultsList<T>({
     const totalPosts = posts_connection?.pageInfo?.total || 0
     const totalPages = posts_connection?.pageInfo.pageCount || Math.ceil(totalPosts / postsPerPage)
 
-    if (!posts || !Array.isArray(posts)) {
+    console.log(posts)
+
+    if (!posts || !Array.isArray(posts) || !posts.length) {
         return (
-            <div className="w-full md:w-95pct lg:gap-[5%] mt-10 lg:mt-16">
-                <p className="text-center text-lg text-primary font-normal">
-                    No results found for your search. Please try a different words.
-                </p>
-            </div>
+            <>
+                <h1 className="archive-title font-lato text-primary font-semibold text-2xl w-95pct mt-10 lg:mt-16">
+                    Search: <span className="capitalize font-normal">{searchTerm}</span>
+                </h1>
+                <div className="w-full md:w-95pct lg:gap-[5%] mt-10 lg:mt-16">
+                    <p className="text-center text-lg text-primary font-normal">
+                        No results found for your search. Please try a different words.
+                    </p>
+                </div>
+            </>
         )
     }
 

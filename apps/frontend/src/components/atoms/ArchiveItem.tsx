@@ -6,7 +6,7 @@ import { ProcessedArchive } from '@/lib/archiveUtils'
 // Use the properties from ProcessedArchive type
 type ArchiveItemProps = Pick<ProcessedArchive, 'title' | 'slug' | 'postCount' | 'year' | 'month'>
 
-const ArchiveItem: FC<ArchiveItemProps> = ({ title, slug, postCount, year, month }) => {
+const ArchiveItem: FC<ArchiveItemProps> = ({ slug, postCount, year, month }) => {
     // Format the display text based on whether it's current year or previous years
     // For current year, show "Month Year" format
     // For previous years, show only the year

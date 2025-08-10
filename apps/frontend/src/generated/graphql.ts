@@ -1345,7 +1345,7 @@ export type SearchPostsQueryVariables = Exact<{
 }>;
 
 
-export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageCount: number, pageSize: number, total: number } } | null };
+export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, excerpt?: string | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageCount: number, pageSize: number, total: number } } | null };
 
 export type GetAboutPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1383,13 +1383,6 @@ export type GetOneArticleQueryVariables = Exact<{
 
 
 export type GetOneArticleQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, content?: string | null, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
-
-export type GetOneArticleByDocumentIdQueryVariables = Exact<{
-  documentId: Scalars['ID']['input'];
-}>;
-
-
-export type GetOneArticleByDocumentIdQuery = { __typename?: 'Query', post?: { __typename?: 'Post', title: string, content?: string | null, thumbnail?: { __typename?: 'UploadFile', documentId: string, height?: number | null, width?: number | null, url: string, name: string, alternativeText?: string | null } | null, tags: Array<{ __typename?: 'Tag', name: string, documentId: string, slug: string } | null> } | null };
 
 export type GetOneTagNameQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -1542,6 +1535,7 @@ export const SearchPostsDocument = gql`
     createdAt
     updatedAt
     slug
+    excerpt
   }
   posts_connection(
     pagination: $pagination
@@ -1886,60 +1880,6 @@ export type GetOneArticleQueryHookResult = ReturnType<typeof useGetOneArticleQue
 export type GetOneArticleLazyQueryHookResult = ReturnType<typeof useGetOneArticleLazyQuery>;
 export type GetOneArticleSuspenseQueryHookResult = ReturnType<typeof useGetOneArticleSuspenseQuery>;
 export type GetOneArticleQueryResult = Apollo.QueryResult<GetOneArticleQuery, GetOneArticleQueryVariables>;
-export const GetOneArticleByDocumentIdDocument = gql`
-    query GetOneArticleByDocumentID($documentId: ID!) {
-  post(documentId: $documentId) {
-    title
-    thumbnail {
-      documentId
-      height
-      width
-      url
-      name
-      alternativeText
-    }
-    tags {
-      name
-      documentId
-      slug
-    }
-    content
-  }
-}
-    `;
-
-/**
- * __useGetOneArticleByDocumentIdQuery__
- *
- * To run a query within a React component, call `useGetOneArticleByDocumentIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOneArticleByDocumentIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOneArticleByDocumentIdQuery({
- *   variables: {
- *      documentId: // value for 'documentId'
- *   },
- * });
- */
-export function useGetOneArticleByDocumentIdQuery(baseOptions: Apollo.QueryHookOptions<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables> & ({ variables: GetOneArticleByDocumentIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables>(GetOneArticleByDocumentIdDocument, options);
-      }
-export function useGetOneArticleByDocumentIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables>(GetOneArticleByDocumentIdDocument, options);
-        }
-export function useGetOneArticleByDocumentIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables>(GetOneArticleByDocumentIdDocument, options);
-        }
-export type GetOneArticleByDocumentIdQueryHookResult = ReturnType<typeof useGetOneArticleByDocumentIdQuery>;
-export type GetOneArticleByDocumentIdLazyQueryHookResult = ReturnType<typeof useGetOneArticleByDocumentIdLazyQuery>;
-export type GetOneArticleByDocumentIdSuspenseQueryHookResult = ReturnType<typeof useGetOneArticleByDocumentIdSuspenseQuery>;
-export type GetOneArticleByDocumentIdQueryResult = Apollo.QueryResult<GetOneArticleByDocumentIdQuery, GetOneArticleByDocumentIdQueryVariables>;
 export const GetOneTagNameDocument = gql`
     query GetOneTagName($slug: String!) {
   tags(filters: {slug: {eq: $slug}}) {
