@@ -11,6 +11,7 @@ import ConsentBanner from '@/components/molecules/ConsentBanner'
 // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 config.autoAddCss = false
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const lato = Lato({
     weight: ['300', '400', '700'],
     subsets: ['latin'],

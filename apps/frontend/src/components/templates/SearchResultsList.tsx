@@ -28,8 +28,6 @@ export default function SearchResultsList<T>({
     const totalPosts = posts_connection?.pageInfo?.total || 0
     const totalPages = posts_connection?.pageInfo.pageCount || Math.ceil(totalPosts / postsPerPage)
 
-    console.log(posts)
-
     if (!posts || !Array.isArray(posts) || !posts.length) {
         return (
             <>

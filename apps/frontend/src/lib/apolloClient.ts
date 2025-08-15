@@ -2,8 +2,14 @@ import { HttpLink } from '@apollo/client'
 import { registerApolloClient, ApolloClient, InMemoryCache, SSRMultipartLink } from '@apollo/client-integration-nextjs'
 
 export const { getClient, query } = registerApolloClient(() => {
+    let uri = 'http://strapi:1337/graphql'
+
+    if (process.env.IS_BUILDER === 'true') {
+        uri = 'http://localhost:1337/graphql'
+    }
+
     const httpLink = new HttpLink({
-        uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL || 'http://localhost:1337/graphql',
+        uri,
         fetchOptions: {
             mode: 'cors',
         },

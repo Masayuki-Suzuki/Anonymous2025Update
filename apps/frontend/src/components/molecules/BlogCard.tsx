@@ -11,8 +11,8 @@ type PostType = {
     documentId: string
     title: string
     slug: string
-    createdAt?: any | null
-    updatedAt?: any | null
+    createdAt?: string | null
+    updatedAt?: string | null
     tags: Array<{ name: string; slug: string } | null>
 
     // Properties only in PostsQuery that need to be optional

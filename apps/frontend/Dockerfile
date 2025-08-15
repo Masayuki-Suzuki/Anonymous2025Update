@@ -1,12 +1,49 @@
-FROM node:18-alpine
+FROM node:24-slim AS deps
+
+ARG PORT=3000
+
+ENV NEXT_TELEMETRY_DISABLED=1
+
+WORKDIR /app
+
+FROM deps AS dependencies
 
 WORKDIR /app
 
 COPY package.json ./
+
+RUN corepack enable
+RUN corepack prepare yarn@4.9.0 --activate
+RUN yarn config set nodeLinker node-modules
 RUN yarn install
 
+FROM dependencies AS build
+
+COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
-EXPOSE 3000
+ENV IS_BUILDER="true"
 
-CMD ["yarn", "dev"]
+RUN yarn build
+
+FROM deps AS runner
+
+ENV NODE_ENV=production
+ENV PORT=${PORT}
+ENV IS_BUILDER="false"
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=build /app/public ./public
+COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE ${PORT}
+
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]

@@ -2,6 +2,7 @@ import React from 'react'
 import Markdown, { MarkdownToJSX } from 'markdown-to-jsx'
 import CodeBlock from '@/components/molecules/CodeBlock'
 import MarkdownLink from '@/components/atoms/MarkdownLink'
+import Image from 'next/image'
 
 type MarkdownProps = {
     children: string
@@ -98,11 +99,13 @@ const DEFAULT_OPTIONS: MarkdownToJSX.Options = {
         img: {
             component: ({ src, alt }) => (
                 <span className="w-full block">
-                    <img
+                    <Image
                         className="w-full h-auto rounded-md my-4 max-w-full"
                         src={src}
                         alt={alt || 'Image'}
                         loading="lazy"
+                        width={1280}
+                        height={768}
                     />
                 </span>
             ),
