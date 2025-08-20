@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { format, isValid, parseISO } from 'date-fns'
 import type { Core } from '@strapi/strapi'
 
 async function checkIfArchiveExists(slug: string) {
@@ -23,7 +23,12 @@ export async function linkPostToArchive(event: any, strapi: Core.Strapi): Promis
         return
     }
 
-    const date = format(result.createdAt, 'MMMM yyyy')
+    const baseDate = (() => {
+        const d = parseISO(result.createdAt)
+        return isValid(d) ? d : new Date()
+    })()
+
+    const date = format(baseDate, 'MMMM yyyy')
     const slug = date.toLowerCase().replace(' ', '-')
     const archive = await checkIfArchiveExists(slug)
     let archiveDocumentId: string

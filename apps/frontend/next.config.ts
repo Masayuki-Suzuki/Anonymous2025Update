@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
     output: 'standalone',
     // Configure domains for next/image
     images: {
-        domains: ['localhost'],
+        domains: ['https://dashboard.anonymous-frontend.dev', 'localhost', 'strapi:1337'],
     },
     async rewrites() {
         return [
