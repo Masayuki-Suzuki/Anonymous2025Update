@@ -80,6 +80,9 @@ volumes:
     postgres_data:
 
 networks:
+#   caddy_net:
+#   	    external: true
+
     default:
         external:
             name: caddy_net

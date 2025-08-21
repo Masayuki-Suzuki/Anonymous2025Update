@@ -4,6 +4,13 @@ import { registerApolloClient, ApolloClient, InMemoryCache, SSRMultipartLink } f
 export const { getClient, query } = registerApolloClient(() => {
     const uri = process.env.NEXT_PUBLIC_GRAPHQL_API_URL || 'http://localhost:1337/graphql'
 
+	console.log('=====================================')
+	console.log('=====================================')
+	console.log(process.env.NEXT_PUBLIC_GRAPHQL_API_URL)
+	console.log('=====================================')
+	console.log('=====================================')
+
+
     const httpLink = new HttpLink({
         uri,
         fetchOptions: {
