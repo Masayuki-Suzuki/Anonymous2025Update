@@ -27,7 +27,7 @@ export default function PostsList<T>({ initialPostData, page, title, baseUrl }: 
                     Category: <span className="capitalize font-normal">{title}</span>
                 </h1>
             )}
-            <div className="flex flex-wrap w-95pct lg:gap-[5%] mt-10">
+            <div className={`flex flex-wrap md:w-95pct lg:gap-[5%] mt-10 ${!title && 'lg:mt-16'}`}>
                 {posts.map((post, index) => post && <BlogCard key={post.documentId} post={post} index={index} />)}
             </div>
             <Pagination currentPage={page} totalPages={totalPages} baseUrl={baseUrl} />

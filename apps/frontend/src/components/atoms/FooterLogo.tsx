@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const FooterLogo = () => {
     return (
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center hover:opacity-50 transition-opacity duration-300 ease-in-out">
             <Image src="/images/ft_logo.svg" alt="Logo" width={70} height={57} className="w-12" />
             <div style={{ marginLeft: '10px', color: '#fff' }}>
                 <div className="text-[25px] text-white font-light tracking-widest leading-none">ANONYMOUS</div>

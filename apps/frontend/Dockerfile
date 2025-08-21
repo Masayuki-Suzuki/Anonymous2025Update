@@ -15,16 +15,17 @@ COPY package.json ./
 RUN corepack enable
 RUN corepack prepare yarn@4.9.0 --activate
 RUN yarn config set nodeLinker node-modules
-RUN yarn install
+RUN yarn install --network-timeout 1200000
 
 FROM dependencies AS build
 
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
+ENV NODE_ENV=production
 ENV IS_BUILDER="true"
 
-RUN yarn build
+RUN yarn build --network-timeout 1200000
 
 FROM deps AS runner
 

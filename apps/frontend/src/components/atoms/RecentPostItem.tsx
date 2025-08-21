@@ -39,7 +39,7 @@ const RecentPostItem: FC<RecentPostItemProps> = ({
                         alt={thumbnailAlt || title}
                         width={thumbnailWidth || 60}
                         height={thumbnailHeight || 60}
-                        className="object-cover object-center w-1/3 max-w-[60px] aspect-square rounded-[100%]"
+                        className="object-cover object-center w-1/3 max-w-[60px] max-h-[60px] aspect-square rounded-[100%]"
                     />
 
                     {/* Text content */}

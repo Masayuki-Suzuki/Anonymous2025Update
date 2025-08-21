@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Logo = () => {
     return (
-        <Link href="/">
+        <Link href="/" className="hover:opacity-50 transition-opacity duration-300 ease-in-out">
             <h1 className="flex items-center">
                 <Image
                     className="h-auto w-10 sm:w-14 md:w-[70px] mr-4"
