@@ -32,6 +32,7 @@ const nextConfig: NextConfig = {
         // This will disable ESLint during production builds
         ignoreDuringBuilds: true,
     },
+    staticPageGenerationTimeout: 180,
 }
 
 export default withSentryConfig(nextConfig, {
