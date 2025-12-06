@@ -3,7 +3,7 @@ import EmptyState from '../atoms/EmptyState'
 import { TagsQuery } from '@/generated/graphql'
 
 type CategoryListContentProps = {
-    data: TagsQuery
+    data: TagsQuery | undefined
 }
 
 /**

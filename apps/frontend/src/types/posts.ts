@@ -1,3 +1,17 @@
+export type PostConnection = {
+    __typename?: string | undefined
+    pageInfo:
+        | {
+              __typename?: string | undefined
+              page?: number
+              pageSize?: number
+              pageCount?: number
+              total?: number
+          }
+        | null
+        | undefined
+}
+
 export type PostListPostsConnection = {
     posts_connection?:
         | {
@@ -15,7 +29,7 @@ export type PostListPostsConnection = {
 }
 
 export type PostListProps<T> = {
-    initialPostData: T & PostListPostsConnection
+    initialPostData: (T & PostListPostsConnection) | undefined
     page: number
     title: string
     baseUrl: string

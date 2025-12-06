@@ -28,10 +28,10 @@ const nextConfig: NextConfig = {
             },
         ]
     },
-    eslint: {
-        // This will disable ESLint during production builds
-        ignoreDuringBuilds: true,
-    },
+    // eslint: {
+    //     // This will disable ESLint during production builds
+    //     ignoreDuringBuilds: true,
+    // },
     staticPageGenerationTimeout: 180,
 }
 

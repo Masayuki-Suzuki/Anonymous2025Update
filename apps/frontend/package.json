@@ -11,8 +11,8 @@
         "codegen": "graphql-codegen --config codegen.ts"
     },
     "dependencies": {
-        "@apollo/client": "^4.0.9",
-        "@apollo/client-integration-nextjs": "^0.14.1",
+        "@apollo/client": "^3.14.0",
+        "@apollo/client-integration-nextjs": "^0.12.3",
         "@fortawesome/fontawesome-svg-core": "^7.1.0",
         "@fortawesome/free-brands-svg-icons": "^7.1.0",
         "@fortawesome/free-solid-svg-icons": "^7.1.0",

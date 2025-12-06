@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import MarkDownWrapper from '@/components/atoms/MarkDownWrapper'
 
 interface AboutProps {
-    initialAboutData: AboutQuery
+    initialAboutData: AboutQuery | undefined
 }
 
 export default function About({ initialAboutData }: AboutProps) {

@@ -3,7 +3,7 @@ import EmptyState from '../atoms/EmptyState'
 import { GetRecentArticlesQuery } from '@/generated/graphql'
 
 type RecentPostsListContentProps = {
-    data: GetRecentArticlesQuery
+    data: GetRecentArticlesQuery | undefined
 }
 
 /**

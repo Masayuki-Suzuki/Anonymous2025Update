@@ -1,9 +1,10 @@
 import SearchResultCard from '../molecules/SearchResultCard'
 import Pagination from '@/components/molecules/Pagination'
 import { PostListPostsConnection } from '@/types/posts'
+import { getPostCountsAndPages } from '@/lib/getPostCountsAndPages'
 
 type SearchResultsListProps<T> = {
-    initialPostData: T & PostListPostsConnection
+    initialPostData: (T & PostListPostsConnection) | undefined
     searchTerm: string
     page: number
     baseUrl: string
@@ -15,18 +16,13 @@ export default function SearchResultsList<T>({
     page,
     baseUrl,
 }: SearchResultsListProps<T>) {
-    const { posts_connection } = initialPostData
-
     // Number of posts to display per page - configurable
     // You can change this value to adjust the number of posts per page
     const postsPerPage = Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 10
 
     // Get the current archive from the state
     const posts = initialPostData && 'posts' in initialPostData ? initialPostData.posts : []
-
-    // Calculate total posts and pages for client-side pagination
-    const totalPosts = posts_connection?.pageInfo?.total || 0
-    const totalPages = posts_connection?.pageInfo.pageCount || Math.ceil(totalPosts / postsPerPage)
+    const { totalPages } = getPostCountsAndPages(initialPostData?.posts_connection, postsPerPage)
 
     if (!posts || !Array.isArray(posts) || !posts.length) {
         return (

@@ -3,7 +3,7 @@ import MarkDownWrapper from '@/components/atoms/MarkDownWrapper'
 import { notFound } from 'next/navigation'
 
 interface PrivacyPolicyProps {
-    initialPrivacyPolicyData: GetPrivacyPolicyContentQuery
+    initialPrivacyPolicyData: GetPrivacyPolicyContentQuery | undefined
 }
 
 export default function PrivacyPolicy({ initialPrivacyPolicyData }: PrivacyPolicyProps) {

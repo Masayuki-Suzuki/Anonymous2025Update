@@ -45,14 +45,16 @@ export default async function CategoryPage({
         },
     })
 
-    const {
-        data: { tags },
-    } = await getClient().query<GetOneTagNameQuery>({
+    const { data: tagData } = await getClient().query<GetOneTagNameQuery>({
         query: GetOneTagNameDocument,
         variables: { slug },
     })
 
-    const tagName = (tags && tags[0] && tags[0].name) || 'Uncategorized'
+    let tagName = 'Uncategorized'
+
+    if (tagData && 'tags' in tagData) {
+        tagName = (tagData.tags && tagData.tags[0] && tagData.tags[0].name) || 'Uncategorized'
+    }
 
     return <PostsList<GetPostByTagSlugQuery> initialPostData={data} page={page} title={tagName} baseUrl={baseUrl} />
 }

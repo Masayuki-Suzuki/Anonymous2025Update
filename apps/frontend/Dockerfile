@@ -43,7 +43,9 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000
 
 # Next.js を本番ビルド（next.config.js に `output: 'standalone'` を設定しておく）
-RUN yarn node --version && yarn --version && yarn build
+RUN yarn node --version
+RUN yarn --version
+RUN yarn build
 
 # -----------------------------
 # runner: 軽量ランタイム（standalone）
