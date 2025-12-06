@@ -1,50 +1,71 @@
-FROM node:24-slim AS deps
+# apps/frontend/Dockerfile
+# Next.js (monorepo + Yarn v4) production build & run
 
-ARG PORT=3000
-
-ENV NEXT_TELEMETRY_DISABLED=1
-
+FROM node:24-slim AS base
 WORKDIR /app
+ENV NODE_ENV=production
+# git は monorepo で依存解決に使う可能性があるため入れておく
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
+  && rm -rf /var/lib/apt/lists/* \
+  && corepack enable && corepack prepare yarn@4 --activate
 
-FROM deps AS dependencies
+# -----------------------------
+# deps: 対象WSの依存だけをインストール
+# -----------------------------
+FROM base AS deps
+# ルートの lockfile / .yarn を必ず先に
+COPY package.json yarn.lock .yarn/ ./
+# 対象WSの manifest
+COPY apps/frontend/package.json ./apps/frontend/package.json
+# もし packages/* を参照しているなら、その package.json もコピー（必要時のみ）
+# COPY packages/*/package.json ./packages/*/package.json
 
-WORKDIR /app
+# monorepo の lockfile を活かしたまま "frontend" WS に必要な依存だけにフォーカス
+RUN yarn workspaces focus frontend --all --production
 
-COPY package.json ./
-
-RUN corepack enable
-RUN corepack prepare yarn@4.9.0 --activate
-RUN yarn config set nodeLinker node-modules
-RUN yarn install --network-timeout 1200000
-
-FROM dependencies AS build
-
-COPY --from=dependencies /app/node_modules ./node_modules
+# -----------------------------
+# build: 本番ビルド（standalone）
+# -----------------------------
+FROM base AS build
+# deps で用意した node_modules/.pnp.* 等を持ち込む
+COPY --from=deps /app /app
+# 残りのソースをコピー
 COPY . .
+WORKDIR /app/apps/frontend
 
-ENV NODE_ENV=production
-ENV IS_BUILDER="true"
+# SSG/ISR 等で build 時に必要になる公開環境変数を ARG 経由で受け取れるように
+ARG NEXT_PUBLIC_STRAPI_URL
+ARG NEXT_PUBLIC_GRAPHQL_API_URL
+ARG NEXT_PUBLIC_STRAPI_API_TOKEN
 
-RUN yarn build --network-timeout 1200000
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    HOST=0.0.0.0 \
+    PORT=3000
 
-FROM deps AS runner
+# Next.js を本番ビルド（next.config.js に `output: 'standalone'` を設定しておく）
+RUN yarn node --version && yarn --version && yarn build
 
-ENV NODE_ENV=production
-ENV PORT=${PORT}
-ENV IS_BUILDER="false"
+# -----------------------------
+# runner: 軽量ランタイム（standalone）
+# -----------------------------
+FROM node:24-slim AS runner
+WORKDIR /app
+ENV NODE_ENV=production \
+    HOST=0.0.0.0 \
+    PORT=3000 \
+    NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+# 非rootユーザーで実行
+RUN addgroup --system --gid 1001 nodejs \
+ && adduser  --system --uid 1001 nextjs
 
-COPY --from=build /app/public ./public
-COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
+# standalone 出力物をコピー
+# monorepo の場合、server.js は apps/frontend 配下に生成される
+COPY --from=build /app/apps/frontend/.next/standalone ./
+COPY --from=build /app/apps/frontend/.next/static ./apps/frontend/.next/static
+COPY --from=build /app/apps/frontend/public       ./apps/frontend/public
 
-USER nextjs
-
-EXPOSE ${PORT}
-
-ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+USER 1001
+EXPOSE 3000
+# monoreポ構成のstandaloneは apps/frontend/server.js がエントリ
+CMD ["node", "apps/frontend/server.js"]
