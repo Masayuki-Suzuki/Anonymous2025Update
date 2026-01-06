@@ -9113,6 +9113,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "anon-dev-2025@workspace:."
   dependencies:
+    "@next/swc-linux-arm64-gnu": "npm:^16.1.1"
     prettier: "npm:^3.7.4"
   languageName: unknown
   linkType: soft

@@ -21,7 +21,7 @@ COPY apps/frontend/package.json ./apps/frontend/package.json
 # COPY packages/*/package.json ./packages/*/package.json
 
 # monorepo の lockfile を活かしたまま "frontend" WS に必要な依存だけにフォーカス
-RUN yarn workspaces focus frontend --all --production
+RUN yarn workspaces focus frontend --all
 
 # -----------------------------
 # build: 本番ビルド（standalone）
@@ -42,10 +42,11 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
     HOST=0.0.0.0 \
     PORT=3000
 
+RUN cp -r /app/node_modules/@next/swc-linux-arm64-gnu /app/apps/frontend/node_modules || ture
+
 # Next.js を本番ビルド（next.config.js に `output: 'standalone'` を設定しておく）
-RUN yarn node --version
-RUN yarn --version
-RUN yarn build
+#RUN yarn build
+RUN YARN_REGISTRY="https://registry.npmjs.org" yarn workspace frontend build
 
 # -----------------------------
 # runner: 軽量ランタイム（standalone）
