@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
     output: 'standalone',
     // Configure domains for next/image
     images: {
-        domains: ['https://dashboard.anonymous-frontend.dev'],
+        // domains: ['https://dashboard.anonymous-frontend.dev'],
         remotePatterns: [new URL('https://dashboard.anonymous-frontend.dev/uploads/**')],
     },
     async rewrites() {

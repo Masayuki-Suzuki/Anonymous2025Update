@@ -1,13 +1,12 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+/* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -15,12 +14,13 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: { input: any; output: any; }
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
 };
 
 export type About = {
-  __typename?: 'About';
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -34,7 +34,6 @@ export type AboutInput = {
 };
 
 export type AboutWidget = {
-  __typename?: 'AboutWidget';
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -50,7 +49,6 @@ export type AboutWidgetInput = {
 };
 
 export type Archive = {
-  __typename?: 'Archive';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
   posts: Array<Maybe<Post>>;
@@ -76,7 +74,6 @@ export type ArchivePosts_ConnectionArgs = {
 };
 
 export type ArchiveEntityResponseCollection = {
-  __typename?: 'ArchiveEntityResponseCollection';
   nodes: Array<Archive>;
   pageInfo: Pagination;
 };
@@ -152,7 +149,6 @@ export type DateTimeFilterInput = {
 };
 
 export type DeleteMutationResponse = {
-  __typename?: 'DeleteMutationResponse';
   documentId: Scalars['ID']['output'];
 };
 
@@ -190,7 +186,6 @@ export type FloatFilterInput = {
 export type GenericMorph = About | AboutWidget | Archive | I18NLocale | Post | PrivacyPolicy | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | Tag | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
-  __typename?: 'I18NLocale';
   code?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -200,7 +195,6 @@ export type I18NLocale = {
 };
 
 export type I18NLocaleEntityResponseCollection = {
-  __typename?: 'I18NLocaleEntityResponseCollection';
   nodes: Array<I18NLocale>;
   pageInfo: Pagination;
 };
@@ -293,7 +287,6 @@ export type JsonFilterInput = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
   createArchive?: Maybe<Archive>;
@@ -528,7 +521,6 @@ export type MutationUpdateUsersPermissionsUserArgs = {
 };
 
 export type Pagination = {
-  __typename?: 'Pagination';
   page: Scalars['Int']['output'];
   pageCount: Scalars['Int']['output'];
   pageSize: Scalars['Int']['output'];
@@ -543,7 +535,6 @@ export type PaginationArg = {
 };
 
 export type Post = {
-  __typename?: 'Post';
   archive?: Maybe<Archive>;
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -574,7 +565,6 @@ export type PostTags_ConnectionArgs = {
 };
 
 export type PostEntityResponseCollection = {
-  __typename?: 'PostEntityResponseCollection';
   nodes: Array<Post>;
   pageInfo: Pagination;
 };
@@ -609,12 +599,10 @@ export type PostInput = {
 };
 
 export type PostRelationResponseCollection = {
-  __typename?: 'PostRelationResponseCollection';
   nodes: Array<Post>;
 };
 
 export type PrivacyPolicy = {
-  __typename?: 'PrivacyPolicy';
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -633,7 +621,6 @@ export enum PublicationStatus {
 }
 
 export type Query = {
-  __typename?: 'Query';
   about?: Maybe<About>;
   aboutWidget?: Maybe<AboutWidget>;
   archive?: Maybe<Archive>;
@@ -881,7 +868,6 @@ export type QueryUsersPermissionsUsers_ConnectionArgs = {
 };
 
 export type ReviewWorkflowsWorkflow = {
-  __typename?: 'ReviewWorkflowsWorkflow';
   contentTypes: Scalars['JSON']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -908,7 +894,6 @@ export type ReviewWorkflowsWorkflowStages_ConnectionArgs = {
 };
 
 export type ReviewWorkflowsWorkflowEntityResponseCollection = {
-  __typename?: 'ReviewWorkflowsWorkflowEntityResponseCollection';
   nodes: Array<ReviewWorkflowsWorkflow>;
   pageInfo: Pagination;
 };
@@ -936,7 +921,6 @@ export type ReviewWorkflowsWorkflowInput = {
 };
 
 export type ReviewWorkflowsWorkflowStage = {
-  __typename?: 'ReviewWorkflowsWorkflowStage';
   color?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -947,7 +931,6 @@ export type ReviewWorkflowsWorkflowStage = {
 };
 
 export type ReviewWorkflowsWorkflowStageEntityResponseCollection = {
-  __typename?: 'ReviewWorkflowsWorkflowStageEntityResponseCollection';
   nodes: Array<ReviewWorkflowsWorkflowStage>;
   pageInfo: Pagination;
 };
@@ -973,7 +956,6 @@ export type ReviewWorkflowsWorkflowStageInput = {
 };
 
 export type ReviewWorkflowsWorkflowStageRelationResponseCollection = {
-  __typename?: 'ReviewWorkflowsWorkflowStageRelationResponseCollection';
   nodes: Array<ReviewWorkflowsWorkflowStage>;
 };
 
@@ -1003,7 +985,6 @@ export type StringFilterInput = {
 };
 
 export type Tag = {
-  __typename?: 'Tag';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
   name: Scalars['String']['output'];
@@ -1029,7 +1010,6 @@ export type TagPosts_ConnectionArgs = {
 };
 
 export type TagEntityResponseCollection = {
-  __typename?: 'TagEntityResponseCollection';
   nodes: Array<Tag>;
   pageInfo: Pagination;
 };
@@ -1055,12 +1035,10 @@ export type TagInput = {
 };
 
 export type TagRelationResponseCollection = {
-  __typename?: 'TagRelationResponseCollection';
   nodes: Array<Tag>;
 };
 
 export type UploadFile = {
-  __typename?: 'UploadFile';
   alternativeText?: Maybe<Scalars['String']['output']>;
   caption?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -1083,7 +1061,6 @@ export type UploadFile = {
 };
 
 export type UploadFileEntityResponseCollection = {
-  __typename?: 'UploadFileEntityResponseCollection';
   nodes: Array<UploadFile>;
   pageInfo: Pagination;
 };
@@ -1113,12 +1090,10 @@ export type UploadFileFiltersInput = {
 };
 
 export type UsersPermissionsCreateRolePayload = {
-  __typename?: 'UsersPermissionsCreateRolePayload';
   ok: Scalars['Boolean']['output'];
 };
 
 export type UsersPermissionsDeleteRolePayload = {
-  __typename?: 'UsersPermissionsDeleteRolePayload';
   ok: Scalars['Boolean']['output'];
 };
 
@@ -1129,13 +1104,11 @@ export type UsersPermissionsLoginInput = {
 };
 
 export type UsersPermissionsLoginPayload = {
-  __typename?: 'UsersPermissionsLoginPayload';
   jwt?: Maybe<Scalars['String']['output']>;
   user: UsersPermissionsMe;
 };
 
 export type UsersPermissionsMe = {
-  __typename?: 'UsersPermissionsMe';
   blocked?: Maybe<Scalars['Boolean']['output']>;
   confirmed?: Maybe<Scalars['Boolean']['output']>;
   documentId: Scalars['ID']['output'];
@@ -1146,7 +1119,6 @@ export type UsersPermissionsMe = {
 };
 
 export type UsersPermissionsMeRole = {
-  __typename?: 'UsersPermissionsMeRole';
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
@@ -1154,12 +1126,10 @@ export type UsersPermissionsMeRole = {
 };
 
 export type UsersPermissionsPasswordPayload = {
-  __typename?: 'UsersPermissionsPasswordPayload';
   ok: Scalars['Boolean']['output'];
 };
 
 export type UsersPermissionsPermission = {
-  __typename?: 'UsersPermissionsPermission';
   action: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -1181,7 +1151,6 @@ export type UsersPermissionsPermissionFiltersInput = {
 };
 
 export type UsersPermissionsPermissionRelationResponseCollection = {
-  __typename?: 'UsersPermissionsPermissionRelationResponseCollection';
   nodes: Array<UsersPermissionsPermission>;
 };
 
@@ -1192,7 +1161,6 @@ export type UsersPermissionsRegisterInput = {
 };
 
 export type UsersPermissionsRole = {
-  __typename?: 'UsersPermissionsRole';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   documentId: Scalars['ID']['output'];
@@ -1235,7 +1203,6 @@ export type UsersPermissionsRoleUsers_ConnectionArgs = {
 };
 
 export type UsersPermissionsRoleEntityResponseCollection = {
-  __typename?: 'UsersPermissionsRoleEntityResponseCollection';
   nodes: Array<UsersPermissionsRole>;
   pageInfo: Pagination;
 };
@@ -1265,12 +1232,10 @@ export type UsersPermissionsRoleInput = {
 };
 
 export type UsersPermissionsUpdateRolePayload = {
-  __typename?: 'UsersPermissionsUpdateRolePayload';
   ok: Scalars['Boolean']['output'];
 };
 
 export type UsersPermissionsUser = {
-  __typename?: 'UsersPermissionsUser';
   blocked?: Maybe<Scalars['Boolean']['output']>;
   confirmed?: Maybe<Scalars['Boolean']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -1284,12 +1249,10 @@ export type UsersPermissionsUser = {
 };
 
 export type UsersPermissionsUserEntityResponse = {
-  __typename?: 'UsersPermissionsUserEntityResponse';
   data?: Maybe<UsersPermissionsUser>;
 };
 
 export type UsersPermissionsUserEntityResponseCollection = {
-  __typename?: 'UsersPermissionsUserEntityResponseCollection';
   nodes: Array<UsersPermissionsUser>;
   pageInfo: Pagination;
 };
@@ -1322,7 +1285,6 @@ export type UsersPermissionsUserInput = {
 };
 
 export type UsersPermissionsUserRelationResponseCollection = {
-  __typename?: 'UsersPermissionsUserRelationResponseCollection';
   nodes: Array<UsersPermissionsUser>;
 };
 
@@ -1331,12 +1293,12 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, excerpt?: string | null, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', total: number, pageCount: number, page: number, pageSize: number } } | null };
+export type PostsQuery = { posts: Array<{ documentId: string, title: string, slug: string, excerpt?: string | null, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ name: string, slug: string } | null> } | null>, posts_connection?: { pageInfo: { total: number, pageCount: number, page: number, pageSize: number } } | null };
 
 export type TagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', documentId: string, slug: string, name: string, posts: Array<{ __typename?: 'Post', documentId: string } | null> } | null> };
+export type TagsQuery = { tags: Array<{ documentId: string, slug: string, name: string, posts: Array<{ documentId: string } | null> } | null> };
 
 export type SearchPostsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
@@ -1345,22 +1307,22 @@ export type SearchPostsQueryVariables = Exact<{
 }>;
 
 
-export type SearchPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, excerpt?: string | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageCount: number, pageSize: number, total: number } } | null };
+export type SearchPostsQuery = { posts: Array<{ documentId: string, title: string, createdAt?: any | null, updatedAt?: any | null, slug: string, excerpt?: string | null, tags: Array<{ name: string, slug: string } | null> } | null>, posts_connection?: { pageInfo: { page: number, pageCount: number, pageSize: number, total: number } } | null };
 
 export type GetAboutPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAboutPageQuery = { __typename?: 'Query', about?: { __typename?: 'About', content?: string | null } | null };
+export type GetAboutPageQuery = { about?: { content?: string | null } | null };
 
 export type AboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'About', content?: string | null } | null };
+export type AboutQuery = { about?: { content?: string | null } | null };
 
 export type GetAboutWidgetContentQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAboutWidgetContentQuery = { __typename?: 'Query', aboutWidget?: { __typename?: 'AboutWidget', content?: string | null, profile_image?: { __typename?: 'UploadFile', alternativeText?: string | null, url: string, name: string, width?: number | null, height?: number | null } | null } | null };
+export type GetAboutWidgetContentQuery = { aboutWidget?: { content?: string | null, profile_image?: { alternativeText?: string | null, url: string, name: string, width?: number | null, height?: number | null } | null } | null };
 
 export type GetArchiveBySlugQueryVariables = Exact<{
   filters?: InputMaybe<PostFiltersInput>;
@@ -1370,26 +1332,26 @@ export type GetArchiveBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetArchiveBySlugQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null>, archive?: { __typename?: 'Archive', slug: string, title: string } | null } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageSize: number, pageCount: number, total: number } } | null };
+export type GetArchiveBySlugQuery = { posts: Array<{ documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ name: string, slug: string } | null>, archive?: { slug: string, title: string } | null } | null>, posts_connection?: { pageInfo: { page: number, pageSize: number, pageCount: number, total: number } } | null };
 
 export type ArchivesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArchivesQuery = { __typename?: 'Query', archives: Array<{ __typename?: 'Archive', documentId: string, title: string, slug: string, posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, publishedAt?: any | null } | null> } | null> };
+export type ArchivesQuery = { archives: Array<{ documentId: string, title: string, slug: string, posts: Array<{ documentId: string, title: string, slug: string, publishedAt?: any | null } | null> } | null> };
 
 export type GetOneArticleQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type GetOneArticleQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, content?: string | null, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null> };
+export type GetOneArticleQuery = { posts: Array<{ documentId: string, title: string, content?: string | null, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ name: string, slug: string } | null> } | null> };
 
 export type GetOneTagNameQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type GetOneTagNameQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', name: string } | null> };
+export type GetOneTagNameQuery = { tags: Array<{ name: string } | null> };
 
 export type GetPostByTagSlugQueryVariables = Exact<{
   filters?: InputMaybe<PostFiltersInput>;
@@ -1399,681 +1361,29 @@ export type GetPostByTagSlugQueryVariables = Exact<{
 }>;
 
 
-export type GetPostByTagSlugQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ __typename?: 'Tag', name: string, slug: string } | null> } | null>, posts_connection?: { __typename?: 'PostEntityResponseCollection', pageInfo: { __typename?: 'Pagination', page: number, pageSize: number, pageCount: number, total: number } } | null };
+export type GetPostByTagSlugQuery = { posts: Array<{ documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, excerpt?: string | null, thumbnail?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null, tags: Array<{ name: string, slug: string } | null> } | null>, posts_connection?: { pageInfo: { page: number, pageSize: number, pageCount: number, total: number } } | null };
 
 export type GetPrivacyPolicyContentQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPrivacyPolicyContentQuery = { __typename?: 'Query', privacyPolicy?: { __typename?: 'PrivacyPolicy', content?: string | null, createdAt?: any | null, publishedAt?: any | null, updatedAt?: any | null } | null };
+export type GetPrivacyPolicyContentQuery = { privacyPolicy?: { content?: string | null, createdAt?: any | null, publishedAt?: any | null, updatedAt?: any | null } | null };
 
 export type GetRecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRecentArticlesQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null } | null> };
+export type GetRecentArticlesQuery = { posts: Array<{ documentId: string, title: string, slug: string, createdAt?: any | null, updatedAt?: any | null, thumbnail?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null } | null> };
 
 
-export const PostsDocument = gql`
-    query Posts($pagination: PaginationArg) {
-  posts(sort: "createdAt:desc", pagination: $pagination) {
-    documentId
-    title
-    slug
-    excerpt
-    thumbnail {
-      url
-      alternativeText
-      width
-      height
-    }
-    tags {
-      name
-      slug
-    }
-    createdAt
-    updatedAt
-  }
-  posts_connection(pagination: $pagination) {
-    pageInfo {
-      total
-      pageCount
-      page
-      pageSize
-    }
-  }
-}
-    `;
-
-/**
- * __usePostsQuery__
- *
- * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePostsQuery({
- *   variables: {
- *      pagination: // value for 'pagination'
- *   },
- * });
- */
-export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
-      }
-export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
-        }
-export function usePostsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PostsQuery, PostsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
-        }
-export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
-export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
-export type PostsSuspenseQueryHookResult = ReturnType<typeof usePostsSuspenseQuery>;
-export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
-export const TagsDocument = gql`
-    query Tags {
-  tags {
-    documentId
-    slug
-    name
-    posts {
-      documentId
-    }
-  }
-}
-    `;
-
-/**
- * __useTagsQuery__
- *
- * To run a query within a React component, call `useTagsQuery` and pass it any options that fit your needs.
- * When your component renders, `useTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTagsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useTagsQuery(baseOptions?: Apollo.QueryHookOptions<TagsQuery, TagsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TagsQuery, TagsQueryVariables>(TagsDocument, options);
-      }
-export function useTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TagsQuery, TagsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TagsQuery, TagsQueryVariables>(TagsDocument, options);
-        }
-export function useTagsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<TagsQuery, TagsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<TagsQuery, TagsQueryVariables>(TagsDocument, options);
-        }
-export type TagsQueryHookResult = ReturnType<typeof useTagsQuery>;
-export type TagsLazyQueryHookResult = ReturnType<typeof useTagsLazyQuery>;
-export type TagsSuspenseQueryHookResult = ReturnType<typeof useTagsSuspenseQuery>;
-export type TagsQueryResult = Apollo.QueryResult<TagsQuery, TagsQueryVariables>;
-export const SearchPostsDocument = gql`
-    query SearchPosts($searchTerm: String!, $pagination: PaginationArg!, $sort: [String]) {
-  posts(
-    filters: {or: [{title: {containsi: $searchTerm}}, {content: {containsi: $searchTerm}}]}
-    pagination: $pagination
-    sort: $sort
-  ) {
-    documentId
-    title
-    tags {
-      name
-      slug
-    }
-    createdAt
-    updatedAt
-    slug
-    excerpt
-  }
-  posts_connection(
-    pagination: $pagination
-    filters: {or: [{title: {containsi: $searchTerm}}, {content: {containsi: $searchTerm}}]}
-  ) {
-    pageInfo {
-      page
-      pageCount
-      pageSize
-      total
-    }
-  }
-}
-    `;
-
-/**
- * __useSearchPostsQuery__
- *
- * To run a query within a React component, call `useSearchPostsQuery` and pass it any options that fit your needs.
- * When your component renders, `useSearchPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSearchPostsQuery({
- *   variables: {
- *      searchTerm: // value for 'searchTerm'
- *      pagination: // value for 'pagination'
- *      sort: // value for 'sort'
- *   },
- * });
- */
-export function useSearchPostsQuery(baseOptions: Apollo.QueryHookOptions<SearchPostsQuery, SearchPostsQueryVariables> & ({ variables: SearchPostsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchPostsQuery, SearchPostsQueryVariables>(SearchPostsDocument, options);
-      }
-export function useSearchPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchPostsQuery, SearchPostsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchPostsQuery, SearchPostsQueryVariables>(SearchPostsDocument, options);
-        }
-export function useSearchPostsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchPostsQuery, SearchPostsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<SearchPostsQuery, SearchPostsQueryVariables>(SearchPostsDocument, options);
-        }
-export type SearchPostsQueryHookResult = ReturnType<typeof useSearchPostsQuery>;
-export type SearchPostsLazyQueryHookResult = ReturnType<typeof useSearchPostsLazyQuery>;
-export type SearchPostsSuspenseQueryHookResult = ReturnType<typeof useSearchPostsSuspenseQuery>;
-export type SearchPostsQueryResult = Apollo.QueryResult<SearchPostsQuery, SearchPostsQueryVariables>;
-export const GetAboutPageDocument = gql`
-    query GetAboutPage {
-  about {
-    content
-  }
-}
-    `;
-
-/**
- * __useGetAboutPageQuery__
- *
- * To run a query within a React component, call `useGetAboutPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAboutPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAboutPageQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAboutPageQuery(baseOptions?: Apollo.QueryHookOptions<GetAboutPageQuery, GetAboutPageQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAboutPageQuery, GetAboutPageQueryVariables>(GetAboutPageDocument, options);
-      }
-export function useGetAboutPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAboutPageQuery, GetAboutPageQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAboutPageQuery, GetAboutPageQueryVariables>(GetAboutPageDocument, options);
-        }
-export function useGetAboutPageSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAboutPageQuery, GetAboutPageQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAboutPageQuery, GetAboutPageQueryVariables>(GetAboutPageDocument, options);
-        }
-export type GetAboutPageQueryHookResult = ReturnType<typeof useGetAboutPageQuery>;
-export type GetAboutPageLazyQueryHookResult = ReturnType<typeof useGetAboutPageLazyQuery>;
-export type GetAboutPageSuspenseQueryHookResult = ReturnType<typeof useGetAboutPageSuspenseQuery>;
-export type GetAboutPageQueryResult = Apollo.QueryResult<GetAboutPageQuery, GetAboutPageQueryVariables>;
-export const AboutDocument = gql`
-    query About {
-  about {
-    content
-  }
-}
-    `;
-
-/**
- * __useAboutQuery__
- *
- * To run a query within a React component, call `useAboutQuery` and pass it any options that fit your needs.
- * When your component renders, `useAboutQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAboutQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAboutQuery(baseOptions?: Apollo.QueryHookOptions<AboutQuery, AboutQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AboutQuery, AboutQueryVariables>(AboutDocument, options);
-      }
-export function useAboutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AboutQuery, AboutQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AboutQuery, AboutQueryVariables>(AboutDocument, options);
-        }
-export function useAboutSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AboutQuery, AboutQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<AboutQuery, AboutQueryVariables>(AboutDocument, options);
-        }
-export type AboutQueryHookResult = ReturnType<typeof useAboutQuery>;
-export type AboutLazyQueryHookResult = ReturnType<typeof useAboutLazyQuery>;
-export type AboutSuspenseQueryHookResult = ReturnType<typeof useAboutSuspenseQuery>;
-export type AboutQueryResult = Apollo.QueryResult<AboutQuery, AboutQueryVariables>;
-export const GetAboutWidgetContentDocument = gql`
-    query getAboutWidgetContent {
-  aboutWidget {
-    content
-    profile_image {
-      alternativeText
-      url
-      name
-      width
-      height
-    }
-  }
-}
-    `;
-
-/**
- * __useGetAboutWidgetContentQuery__
- *
- * To run a query within a React component, call `useGetAboutWidgetContentQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAboutWidgetContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAboutWidgetContentQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAboutWidgetContentQuery(baseOptions?: Apollo.QueryHookOptions<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>(GetAboutWidgetContentDocument, options);
-      }
-export function useGetAboutWidgetContentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>(GetAboutWidgetContentDocument, options);
-        }
-export function useGetAboutWidgetContentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>(GetAboutWidgetContentDocument, options);
-        }
-export type GetAboutWidgetContentQueryHookResult = ReturnType<typeof useGetAboutWidgetContentQuery>;
-export type GetAboutWidgetContentLazyQueryHookResult = ReturnType<typeof useGetAboutWidgetContentLazyQuery>;
-export type GetAboutWidgetContentSuspenseQueryHookResult = ReturnType<typeof useGetAboutWidgetContentSuspenseQuery>;
-export type GetAboutWidgetContentQueryResult = Apollo.QueryResult<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>;
-export const GetArchiveBySlugDocument = gql`
-    query GetArchiveBySlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg, $status: PublicationStatus) {
-  posts(filters: $filters, sort: $sort, pagination: $pagination, status: $status) {
-    documentId
-    title
-    slug
-    createdAt
-    updatedAt
-    thumbnail {
-      url
-      alternativeText
-      width
-      height
-    }
-    tags {
-      name
-      slug
-    }
-    archive {
-      slug
-      title
-    }
-    excerpt
-  }
-  posts_connection(pagination: $pagination, filters: $filters, status: $status) {
-    pageInfo {
-      page
-      pageSize
-      pageCount
-      total
-    }
-  }
-}
-    `;
-
-/**
- * __useGetArchiveBySlugQuery__
- *
- * To run a query within a React component, call `useGetArchiveBySlugQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetArchiveBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetArchiveBySlugQuery({
- *   variables: {
- *      filters: // value for 'filters'
- *      sort: // value for 'sort'
- *      pagination: // value for 'pagination'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useGetArchiveBySlugQuery(baseOptions?: Apollo.QueryHookOptions<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>(GetArchiveBySlugDocument, options);
-      }
-export function useGetArchiveBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>(GetArchiveBySlugDocument, options);
-        }
-export function useGetArchiveBySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>(GetArchiveBySlugDocument, options);
-        }
-export type GetArchiveBySlugQueryHookResult = ReturnType<typeof useGetArchiveBySlugQuery>;
-export type GetArchiveBySlugLazyQueryHookResult = ReturnType<typeof useGetArchiveBySlugLazyQuery>;
-export type GetArchiveBySlugSuspenseQueryHookResult = ReturnType<typeof useGetArchiveBySlugSuspenseQuery>;
-export type GetArchiveBySlugQueryResult = Apollo.QueryResult<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>;
-export const ArchivesDocument = gql`
-    query Archives {
-  archives {
-    documentId
-    title
-    slug
-    posts(filters: {publishedAt: {ne: null}}) {
-      documentId
-      title
-      slug
-      publishedAt
-    }
-  }
-}
-    `;
-
-/**
- * __useArchivesQuery__
- *
- * To run a query within a React component, call `useArchivesQuery` and pass it any options that fit your needs.
- * When your component renders, `useArchivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useArchivesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useArchivesQuery(baseOptions?: Apollo.QueryHookOptions<ArchivesQuery, ArchivesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ArchivesQuery, ArchivesQueryVariables>(ArchivesDocument, options);
-      }
-export function useArchivesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ArchivesQuery, ArchivesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ArchivesQuery, ArchivesQueryVariables>(ArchivesDocument, options);
-        }
-export function useArchivesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ArchivesQuery, ArchivesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ArchivesQuery, ArchivesQueryVariables>(ArchivesDocument, options);
-        }
-export type ArchivesQueryHookResult = ReturnType<typeof useArchivesQuery>;
-export type ArchivesLazyQueryHookResult = ReturnType<typeof useArchivesLazyQuery>;
-export type ArchivesSuspenseQueryHookResult = ReturnType<typeof useArchivesSuspenseQuery>;
-export type ArchivesQueryResult = Apollo.QueryResult<ArchivesQuery, ArchivesQueryVariables>;
-export const GetOneArticleDocument = gql`
-    query GetOneArticle($slug: String!) {
-  posts(filters: {slug: {eq: $slug}}) {
-    documentId
-    title
-    content
-    createdAt
-    updatedAt
-    thumbnail {
-      url
-      alternativeText
-      width
-      height
-    }
-    tags {
-      name
-      slug
-    }
-  }
-}
-    `;
-
-/**
- * __useGetOneArticleQuery__
- *
- * To run a query within a React component, call `useGetOneArticleQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOneArticleQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOneArticleQuery({
- *   variables: {
- *      slug: // value for 'slug'
- *   },
- * });
- */
-export function useGetOneArticleQuery(baseOptions: Apollo.QueryHookOptions<GetOneArticleQuery, GetOneArticleQueryVariables> & ({ variables: GetOneArticleQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOneArticleQuery, GetOneArticleQueryVariables>(GetOneArticleDocument, options);
-      }
-export function useGetOneArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOneArticleQuery, GetOneArticleQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOneArticleQuery, GetOneArticleQueryVariables>(GetOneArticleDocument, options);
-        }
-export function useGetOneArticleSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetOneArticleQuery, GetOneArticleQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetOneArticleQuery, GetOneArticleQueryVariables>(GetOneArticleDocument, options);
-        }
-export type GetOneArticleQueryHookResult = ReturnType<typeof useGetOneArticleQuery>;
-export type GetOneArticleLazyQueryHookResult = ReturnType<typeof useGetOneArticleLazyQuery>;
-export type GetOneArticleSuspenseQueryHookResult = ReturnType<typeof useGetOneArticleSuspenseQuery>;
-export type GetOneArticleQueryResult = Apollo.QueryResult<GetOneArticleQuery, GetOneArticleQueryVariables>;
-export const GetOneTagNameDocument = gql`
-    query GetOneTagName($slug: String!) {
-  tags(filters: {slug: {eq: $slug}}) {
-    name
-  }
-}
-    `;
-
-/**
- * __useGetOneTagNameQuery__
- *
- * To run a query within a React component, call `useGetOneTagNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOneTagNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOneTagNameQuery({
- *   variables: {
- *      slug: // value for 'slug'
- *   },
- * });
- */
-export function useGetOneTagNameQuery(baseOptions: Apollo.QueryHookOptions<GetOneTagNameQuery, GetOneTagNameQueryVariables> & ({ variables: GetOneTagNameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOneTagNameQuery, GetOneTagNameQueryVariables>(GetOneTagNameDocument, options);
-      }
-export function useGetOneTagNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOneTagNameQuery, GetOneTagNameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOneTagNameQuery, GetOneTagNameQueryVariables>(GetOneTagNameDocument, options);
-        }
-export function useGetOneTagNameSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetOneTagNameQuery, GetOneTagNameQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetOneTagNameQuery, GetOneTagNameQueryVariables>(GetOneTagNameDocument, options);
-        }
-export type GetOneTagNameQueryHookResult = ReturnType<typeof useGetOneTagNameQuery>;
-export type GetOneTagNameLazyQueryHookResult = ReturnType<typeof useGetOneTagNameLazyQuery>;
-export type GetOneTagNameSuspenseQueryHookResult = ReturnType<typeof useGetOneTagNameSuspenseQuery>;
-export type GetOneTagNameQueryResult = Apollo.QueryResult<GetOneTagNameQuery, GetOneTagNameQueryVariables>;
-export const GetPostByTagSlugDocument = gql`
-    query GetPostByTagSlug($filters: PostFiltersInput, $sort: [String], $pagination: PaginationArg, $status: PublicationStatus) {
-  posts(filters: $filters, sort: $sort, pagination: $pagination, status: $status) {
-    documentId
-    title
-    slug
-    createdAt
-    updatedAt
-    thumbnail {
-      url
-      alternativeText
-      width
-      height
-    }
-    tags {
-      name
-      slug
-    }
-    excerpt
-  }
-  posts_connection(pagination: $pagination, filters: $filters, status: $status) {
-    pageInfo {
-      page
-      pageSize
-      pageCount
-      total
-    }
-  }
-}
-    `;
-
-/**
- * __useGetPostByTagSlugQuery__
- *
- * To run a query within a React component, call `useGetPostByTagSlugQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPostByTagSlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPostByTagSlugQuery({
- *   variables: {
- *      filters: // value for 'filters'
- *      sort: // value for 'sort'
- *      pagination: // value for 'pagination'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useGetPostByTagSlugQuery(baseOptions?: Apollo.QueryHookOptions<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>(GetPostByTagSlugDocument, options);
-      }
-export function useGetPostByTagSlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>(GetPostByTagSlugDocument, options);
-        }
-export function useGetPostByTagSlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>(GetPostByTagSlugDocument, options);
-        }
-export type GetPostByTagSlugQueryHookResult = ReturnType<typeof useGetPostByTagSlugQuery>;
-export type GetPostByTagSlugLazyQueryHookResult = ReturnType<typeof useGetPostByTagSlugLazyQuery>;
-export type GetPostByTagSlugSuspenseQueryHookResult = ReturnType<typeof useGetPostByTagSlugSuspenseQuery>;
-export type GetPostByTagSlugQueryResult = Apollo.QueryResult<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>;
-export const GetPrivacyPolicyContentDocument = gql`
-    query getPrivacyPolicyContent {
-  privacyPolicy {
-    content
-    createdAt
-    publishedAt
-    updatedAt
-  }
-}
-    `;
-
-/**
- * __useGetPrivacyPolicyContentQuery__
- *
- * To run a query within a React component, call `useGetPrivacyPolicyContentQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPrivacyPolicyContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPrivacyPolicyContentQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetPrivacyPolicyContentQuery(baseOptions?: Apollo.QueryHookOptions<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>(GetPrivacyPolicyContentDocument, options);
-      }
-export function useGetPrivacyPolicyContentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>(GetPrivacyPolicyContentDocument, options);
-        }
-export function useGetPrivacyPolicyContentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>(GetPrivacyPolicyContentDocument, options);
-        }
-export type GetPrivacyPolicyContentQueryHookResult = ReturnType<typeof useGetPrivacyPolicyContentQuery>;
-export type GetPrivacyPolicyContentLazyQueryHookResult = ReturnType<typeof useGetPrivacyPolicyContentLazyQuery>;
-export type GetPrivacyPolicyContentSuspenseQueryHookResult = ReturnType<typeof useGetPrivacyPolicyContentSuspenseQuery>;
-export type GetPrivacyPolicyContentQueryResult = Apollo.QueryResult<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>;
-export const GetRecentArticlesDocument = gql`
-    query getRecentArticles {
-  posts(sort: "createdAt:desc", pagination: {limit: 5}) {
-    documentId
-    title
-    slug
-    thumbnail {
-      url
-      alternativeText
-      width
-      height
-    }
-    createdAt
-    updatedAt
-  }
-}
-    `;
-
-/**
- * __useGetRecentArticlesQuery__
- *
- * To run a query within a React component, call `useGetRecentArticlesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecentArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetRecentArticlesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetRecentArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
-      }
-export function useGetRecentArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
-        }
-export function useGetRecentArticlesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
-        }
-export type GetRecentArticlesQueryHookResult = ReturnType<typeof useGetRecentArticlesQuery>;
-export type GetRecentArticlesLazyQueryHookResult = ReturnType<typeof useGetRecentArticlesLazyQuery>;
-export type GetRecentArticlesSuspenseQueryHookResult = ReturnType<typeof useGetRecentArticlesSuspenseQuery>;
-export type GetRecentArticlesQueryResult = Apollo.QueryResult<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>;
+export const PostsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Posts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationArg"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"StringValue","value":"createdAt:desc","block":false}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"excerpt"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"posts_connection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"pageCount"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"pageSize"}}]}}]}}]}}]} as unknown as DocumentNode<PostsQuery, PostsQueryVariables>;
+export const TagsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}}]}}]}}]}}]} as unknown as DocumentNode<TagsQuery, TagsQueryVariables>;
+export const SearchPostsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SearchPosts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationArg"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"containsi"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"content"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"containsi"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}]}}]}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"excerpt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"posts_connection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"containsi"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"content"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"containsi"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}]}}]}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"pageCount"}},{"kind":"Field","name":{"kind":"Name","value":"pageSize"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]}}]} as unknown as DocumentNode<SearchPostsQuery, SearchPostsQueryVariables>;
+export const GetAboutPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAboutPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"about"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}}]}}]}}]} as unknown as DocumentNode<GetAboutPageQuery, GetAboutPageQueryVariables>;
+export const AboutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"About"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"about"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}}]}}]}}]} as unknown as DocumentNode<AboutQuery, AboutQueryVariables>;
+export const GetAboutWidgetContentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAboutWidgetContent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aboutWidget"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"profile_image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}}]}}]}}]} as unknown as DocumentNode<GetAboutWidgetContentQuery, GetAboutWidgetContentQueryVariables>;
+export const GetArchiveBySlugDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetArchiveBySlug"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filters"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PostFiltersInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationArg"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PublicationStatus"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"archive"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"excerpt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"posts_connection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"pageSize"}},{"kind":"Field","name":{"kind":"Name","value":"pageCount"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]}}]} as unknown as DocumentNode<GetArchiveBySlugQuery, GetArchiveBySlugQueryVariables>;
+export const ArchivesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Archives"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"archives"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"publishedAt"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"ne"},"value":{"kind":"NullValue"}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}}]}}]}}]}}]} as unknown as DocumentNode<ArchivesQuery, ArchivesQueryVariables>;
+export const GetOneArticleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOneArticle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]}}]} as unknown as DocumentNode<GetOneArticleQuery, GetOneArticleQueryVariables>;
+export const GetOneTagNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOneTagName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tags"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetOneTagNameQuery, GetOneTagNameQueryVariables>;
+export const GetPostByTagSlugDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPostByTagSlug"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filters"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PostFiltersInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationArg"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PublicationStatus"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"excerpt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"posts_connection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"pageSize"}},{"kind":"Field","name":{"kind":"Name","value":"pageCount"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]}}]} as unknown as DocumentNode<GetPostByTagSlugQuery, GetPostByTagSlugQueryVariables>;
+export const GetPrivacyPolicyContentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPrivacyPolicyContent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"privacyPolicy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetPrivacyPolicyContentQuery, GetPrivacyPolicyContentQueryVariables>;
+export const GetRecentArticlesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getRecentArticles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"StringValue","value":"createdAt:desc","block":false}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"5"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>;
